@@ -58,6 +58,7 @@ export class AuthService {
     console.log('Usuario administrador inicializado.');
     return adminUser;
   }
+}
 
 // Exportar instancia singleton del servicio
 export const authService = new AuthService();
