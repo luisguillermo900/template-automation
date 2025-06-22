@@ -13,15 +13,17 @@ export class AuthRepository {
   /**
    * Crea un nuevo usuario
    */
-  async createUser(data: { username: string; password: string; role: string }) {
-    return await prisma.user.create({
-      data: {
-        username: data.username,
-        password: data.password,
-        role: data.role
-      }
-    });
-  }
+  async createUser(data: { username: string; password: string }) {
+  return await prisma.user.create({
+    data: {
+      username: data.username,
+      password: data.password,
+      firstName: 'Admin',
+      lastName: 'User',
+      isActive: true
+    }
+  });
+}
 }
 
 // Exportar instancia singleton del repositorio

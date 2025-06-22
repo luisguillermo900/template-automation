@@ -52,7 +52,6 @@ export class AuthService {
     const adminUser = await this.repository.createUser({
       username: 'admin',
       password: hashedPassword,
-      role: 'ADMIN', // Ajusta según tu sistema de roles
     });
 
     console.log('Usuario administrador inicializado.');
