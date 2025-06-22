@@ -10,6 +10,8 @@ const Fuentes = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const {orgcod, projcod } = useParams();
+  const [organizacion, setOrganizacion] = useState({});
+  const [proyecto, setProyecto] = useState({});
 
   // Estado de proyectos y errores
     const [sources, setSources] = useState([]);
@@ -46,6 +48,21 @@ const Fuentes = () => {
       fetchSources();
       
     }, [fetchSources]);
+
+  useEffect(() => {
+    const fetchDatos = async () => {
+        try {
+            const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(resOrg.data);
+
+            const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(resProyecto.data);
+        } catch (error) {
+            console.error("Error al obtener datos de organización o proyecto", error);
+        }
+        };
+        fetchDatos();
+  }, [orgcod, projcod, API_BASE_URL]);
 
 
   const irAMenuOrganizaciones = () => {
@@ -197,8 +214,8 @@ const currentYear = new Date().getFullYear();
         <h1>ReqWizards App</h1>
         <div className="flex-container">
           <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-          <span onClick={irAListaProyecto}>Mocar Company /</span>
-          <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
+          <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+          <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
           <span onClick={irAPlantillas}>Plantillas /</span>
           <span>Fuentes</span>
 
@@ -250,34 +267,6 @@ const currentYear = new Date().getFullYear();
               </div>
             </div>
 
-            <div className="expe-search-section-text">
-              <div className="expe-searchbar">
-                <select
-                  className="expe-year-input"
-                  value={searchYear}
-                  onChange={(e) => setSearchYear(e.target.value)}
-                >
-                  <option value="">AÑO</option>
-                  {years.map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  className="expe-month-input"
-                  value={searchMonth}
-                  onChange={(e) => setSearchMonth(e.target.value)}
-                >
-                  <option value="">MES</option>
-                  {months.map((month, index) => (
-                    <option key={index} value={index + 1}>
-                      {month}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
 
             {error ? (
               <p>{error}</p>

@@ -20,7 +20,8 @@ const ActaAceptacion = () => {
     const { orgcod, projcod } = useParams();
 
     const { proid } = location.state || {};
-
+    const [organizacion, setOrganizacion] = useState({});
+    const [proyecto, setProyecto] = useState({});
 
     // Estado para el archivo y su previsualización
 
@@ -233,6 +234,23 @@ const ActaAceptacion = () => {
 
     };
 
+    useEffect(() => {
+    const fetchDatos = async () => {
+        try {
+            // Obtener organización
+            const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(resOrg.data);
+
+            // Obtener proyecto
+            const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(resProyecto.data);
+        } catch (error) {
+            console.error("Error al obtener los datos de la organización o proyecto", error);
+        }
+    };
+    fetchDatos();
+}, [orgcod, projcod, API_BASE_URL]);
+
    
 
     return (
@@ -246,11 +264,8 @@ const ActaAceptacion = () => {
                 <div className="flex-container">
 
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-
-                    <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
-
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
                     <span>Acta</span>
 
                 </div>

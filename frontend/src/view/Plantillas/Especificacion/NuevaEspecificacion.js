@@ -10,6 +10,8 @@ const NuevaEspecificacion = () => {
     const location = useLocation();    
     const hasFetched = useRef(false);
     const { proid } = location.state || {};
+    const [organizacion, setOrganizacion] = useState({});
+    const [proyecto, setProyecto] = useState({});
      // Obtener datos del proyecto del URL
         const { orgcod, projcod,educod,ilacod } = useParams();
     
@@ -30,8 +32,18 @@ const NuevaEspecificacion = () => {
         const [postcondition, setPostcondicion] = useState("");
         const [comment, setComentario] = useState("");
         const [importance, setImporancia] = useState("");
+
+
     //Estados para manejar errores
     const [error, setError] = useState(null);
+    const [errorName, setErrorName] = useState("");
+    const [errorImportance, setErrorImportance] = useState("");
+    const [errorStatus, setErrorStatus] = useState("");
+    const [errorPrecondicion, setErrorPrecondicion] = useState("");
+    const [errorProcedimiento, setErrorProcedimiento] = useState("");
+    const [errorPostcondicion, setErrorPostcondicion] = useState("");
+    const [errorComment, setErrorComment] = useState("");
+    
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
     
     // Obtener el siguiente código de especificacion
@@ -55,9 +67,50 @@ const NuevaEspecificacion = () => {
 
         fetchNextCodigoEspecificacion();
     }, [API_BASE_URL,orgcod, projcod]);
+
+  useEffect(() => {
+    const fetchDatos = async () => {
+        try {
+            const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(resOrg.data);
+
+            const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(resProyecto.data);
+        } catch (error) {
+            console.error("Error al obtener datos de organización o proyecto", error);
+        }
+        };
+        fetchDatos();
+  }, [orgcod, projcod, API_BASE_URL]);
+
     //Registrar nueva especificcion
     const registrarEspecificacion = async (e) => {
         e.preventDefault();
+        if (!name) {
+            setErrorName("El nombre es obligatorio.");
+            return;
+        }
+        if (!importance) {
+            setErrorImportance("Debe seleccionar una importancia.");
+            return;
+        }
+        if (!status) {
+            setErrorStatus("Debe seleccionar un estado");
+            return;
+        }
+
+        if (!precondition) {
+            setErrorPrecondicion("La precondición es obligatoria");
+            return;
+        }
+        if (!procedure) {
+            setErrorProcedimiento("El procedimiento es obligatorio");
+            return;
+        }
+        if (!postcondition) {
+            setErrorPostcondicion("La postcondición es obligatoria");
+            return;
+        }
         try {
             // Realiza la solicitud POST con los datos correctos
                 await axios.post(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/educciones/${educod}/ilaciones/${ilacod}/specifications`, {
@@ -67,6 +120,7 @@ const NuevaEspecificacion = () => {
                 precondition,
                 procedure,
                 postcondition,
+                importance,
             });
             
             // Redirigir a la página de expertos o realizar otra acción
@@ -157,8 +211,8 @@ const NuevaEspecificacion = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-                    <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
                     <span onClick={irAPlantillas}>Plantillas /</span>
                     <span onClick={irAEducciones}>Educciones /</span>
                     <span onClick={irAIlaciones}>Ilaciones /</span>
@@ -211,7 +265,33 @@ const NuevaEspecificacion = () => {
                             </div>
                             <div className="fiel-vers">
                                 <span className="message">
-                                    <input className="input-text" type="text" value={name} onChange={(e) => setNombre(e.target.value)} placeholder="Nombre de la Especificacion" size="100" />
+                                    <input
+                                    type="text"
+                                    className="inputnombre-field"
+                                    placeholder="Nombre de la ilación"
+                                    value={name}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s().,_\-&\/]*$/;
+
+                                        if (permitido.test(value) && value.length <= 50) {
+                                        setNombre(value);
+                                        setErrorName(""); // limpiar el error si todo está bien
+                                        } else {
+                                        setErrorName("No se permiten caracteres especiales.");
+                                        // No actualiza el input → no se muestra el carácter inválido
+                                        }
+                                    }}
+                                    onBlur={() => {
+                                        if (!name.trim()) {
+                                        setErrorName("Este campo es obligatorio.");
+                                        }
+                                    }}
+                                    maxLength={50}
+                                    size="100"
+                                    />
+                                    {errorName && (
+                                    <p style={{ color: 'red', margin: 0 }}>{errorName}</p>)}
                                     <span className="tooltip-text">Ingresar el nombre de la Especificación</span>
                                 </span>
                             </div>
@@ -342,21 +422,30 @@ const NuevaEspecificacion = () => {
                             </div>*/}
 
 
-                            <select
-                                className="ne-input estado-input"
-                                value ={status}
-                                onChange={(e) => setEstado(e.target.value)}
-                                //onChange={(e) => handleCheckboxChange(e.target.value)}
-                                //onChange={(e) => {
-                                   // const selectedEstado = e.target.value;
-                                    //console.log("Estado seleccionado:", selectedEstado);
-                                // } 
-                                //}
-                            >
-                                <option value =''>Seleccione una opcion</option>
-                                <option value ='Activo'>Activo</option>
-                                <option value ='Inactivo'>Inactivo</option>
-                            </select>
+                            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                <select
+                                    className="ne-input estado-input"
+                                    value={status}
+                                    onChange={(e) => {
+                                        setEstado(e.target.value);
+                                        setErrorStatus(""); // limpiar error al seleccionar
+                                    }}
+                                    onBlur={() => {
+                                        if (!status) {
+                                        setErrorStatus("Debe seleccionar un estado.");
+                                        }
+                                    }}
+                                    required
+                                    >
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Por empezar">Por empezar</option>
+                                    <option value="En progreso">En progreso</option>
+                                    <option value="Finalizado">Finalizado</option>
+                                    </select>
+                                    {errorStatus && (
+                                    <p style={{ color: "red", margin: 0 }}>{errorStatus}</p>
+                                    )}
+                            </div>
                             
                         </div>
                         <div className="ne-cod-vers">
@@ -365,7 +454,33 @@ const NuevaEspecificacion = () => {
                             </div>
                             <div className="fiel-vers">
                                 <span className="message">
-                                    <input className="input-textpr" type="text"  size="100" value= {precondition} onChange={(e) => setPrecondicion(e.target.value)} />
+                                    <input
+                                    type="text"
+                                    className="inputnombre-field"
+                                    placeholder="Precondicion"
+                                    value={precondition}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s().,_\-&\/]*$/;
+
+                                        if (permitido.test(value) && value.length <= 80) {
+                                        setPrecondicion(value);
+                                        setErrorPrecondicion(""); // limpiar el error si todo está bien
+                                        } else {
+                                        setErrorPrecondicion("No se permiten caracteres especiales.");
+                                        // No actualiza el input → no se muestra el carácter inválido
+                                        }
+                                    }}
+                                    onBlur={() => {
+                                        if (!precondition.trim()) {
+                                        setErrorPrecondicion("Este campo es obligatorio.");
+                                        }
+                                    }}
+                                    maxLength={80}
+                                    size="100"
+                                    />
+                                    {errorPrecondicion && (
+                                    <p style={{ color: 'red', margin: 0 }}>{errorPrecondicion}</p>)}
                                     <span className="tooltip-text">Ingresar la Precondicion</span>
                                 </span>
                             </div>
@@ -376,7 +491,33 @@ const NuevaEspecificacion = () => {
                             </div>
                             <div className="fiel-vers">
                                 <span className="message">
-                                    <input className="input-textpr" type="text"  size="100" value= {procedure} onChange={(e) => setProcedure(e.target.value)} />
+                                    <input
+                                    type="text"
+                                    className="inputnombre-field"
+                                    placeholder="Procedimiento"
+                                    value={procedure}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s().,_\-&\/]*$/;
+
+                                        if (permitido.test(value) && value.length <= 80) {
+                                        setProcedure(value);
+                                        setErrorProcedimiento(""); // limpiar el error si todo está bien
+                                        } else {
+                                        setErrorProcedimiento("No se permiten caracteres especiales.");
+                                        // No actualiza el input → no se muestra el carácter inválido
+                                        }
+                                    }}
+                                    onBlur={() => {
+                                        if (!procedure.trim()) {
+                                        setErrorProcedimiento("Este campo es obligatorio.");
+                                        }
+                                    }}
+                                    maxLength={80}
+                                    size="100"
+                                    />
+                                    {errorProcedimiento && (
+                                    <p style={{ color: 'red', margin: 0 }}>{errorProcedimiento}</p>)}
                                     <span className="tooltip-text">Describir su procesamiento</span>
                                 </span>
                             </div>
@@ -387,7 +528,33 @@ const NuevaEspecificacion = () => {
                             </div>
                             <div className="fiel-vers">
                                 <span className="message">
-                                    <input className="input-textpr" type="text"  size="100" value= {postcondition} onChange={(e) => setPostcondicion(e.target.value)} />
+                                    <input
+                                    type="text"
+                                    className="inputnombre-field"
+                                    placeholder="Postcondicion"
+                                    value={postcondition}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s().,_\-&\/]*$/;
+
+                                        if (permitido.test(value) && value.length <= 80) {
+                                        setPostcondicion(value);
+                                        setErrorPostcondicion(""); // limpiar el error si todo está bien
+                                        } else {
+                                        setErrorPostcondicion("No se permiten caracteres especiales.");
+                                        // No actualiza el input → no se muestra el carácter inválido
+                                        }
+                                    }}
+                                    onBlur={() => {
+                                        if (!postcondition.trim()) {
+                                        setErrorPostcondicion("Este campo es obligatorio.");
+                                        }
+                                    }}
+                                    maxLength={80}
+                                    size="100"
+                                    />
+                                    {errorPostcondicion && (
+                                    <p style={{ color: 'red', margin: 0 }}>{errorPostcondicion}</p>)}
                                     <span className="tooltip-text">Ingresar la Postcondicion</span>
                                 </span>
                             </div>
@@ -427,16 +594,30 @@ const NuevaEspecificacion = () => {
                                 )}
                             </div>
                             {/*¨Select importancia*/}
-                            <select
-                                className="ne-input estado-input"
-                                value ={importance}
-                                onChange={(e) => setImporancia(e.target.value)}
-                                >
-                                <option value="">Seleccione una opcion</option>
-                                <option value="Alta">Alta</option>
-                                <option value="Media">Media</option>
-                                <option value="Baja">Baja</option>
-                            </select>
+                            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                    <select
+                                    className="ne-input estado-input"
+                                    value={importance}
+                                    onChange={(e) => {
+                                        setImporancia(e.target.value);
+                                        setErrorImportance(""); // limpiar error al seleccionar
+                                    }}
+                                    onBlur={() => {
+                                        if (!importance) {
+                                        setErrorImportance("Debe seleccionar una importancia.");
+                                        }
+                                    }}
+                                    required
+                                    >
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Baja">Baja</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Alta">Alta</option>
+                                    </select>
+                                    {errorImportance && (
+                                    <p style={{ color: "red", margin: 0 }}>{errorImportance}</p>
+                                    )}
+                                </div>
 
                             
                         </div>
@@ -446,7 +627,27 @@ const NuevaEspecificacion = () => {
                         <h3>Comentario</h3>
 
                         <div className="input-text">
-                            <textarea className="input-fieldtext" rows="3" value={comment} onChange={(e) => setComentario(e.target.value)} placeholder="Añadir comentarios "></textarea>
+                            <textarea
+                                className="input-fieldtext"
+                                rows="3"
+                                value={comment}
+                                placeholder="Añadir comentarios"
+                                maxLength={300}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s.,;:()¿?!¡"'\-]*$/;
+
+                                    // Validar: solo permitir si cumple el patrón
+                                    if (permitido.test(value)) {
+                                    setComentario(value);
+                                    setErrorComment("");
+                                    } else {
+                                    setErrorComment("No se permiten caracteres especialeS.");
+                                    }
+                                }}
+                                ></textarea>
+
+                                {errorComment && <p style={{ color: 'red', margin: 0 }}>{errorComment}</p>}
                         </div>
 
                         <div className="ne-buttons">

@@ -4,6 +4,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import '../../styles/stylesPlantillas.css';
 import '../../styles/styles.css';
+import axios from 'axios';
 
 const Plantillas = () => {
     const navigate = useNavigate();
@@ -11,6 +12,8 @@ const Plantillas = () => {
     const { projcod,orgcod } = useParams();
     const { proid } = location.state || {}; 
     const [educciones, setEducciones] = useState([]);
+    const [organizacion, setOrganizacion] = useState({});
+    const [proyecto, setProyecto] = useState({});
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -46,6 +49,21 @@ const Plantillas = () => {
 
         fetchData();
     }, [orgcod, projcod]);
+
+    useEffect(() => {
+    const fetchDatos = async () => {
+        try {
+            const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(resOrg.data);
+
+            const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(resProyecto.data);
+        } catch (error) {
+            console.error("Error al obtener datos de organización o proyecto", error);
+        }
+        };
+        fetchDatos();
+    }, [orgcod, projcod, API_BASE_URL]);
 
     const exportarPDF = () => {
         const doc = new jsPDF();
@@ -151,8 +169,8 @@ const Plantillas = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-                    <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
                     <span>Plantillas</span>
                 </div>
             </header>
@@ -269,6 +287,7 @@ const Plantillas = () => {
                             <div>
                                 <button onClick={irAFuentes} className="fuentes-button">FUENTES</button>
                             </div>
+                            {/*
                             <div>
                                 <button onClick={irAMetricas} className="metricas-button">MÉTRICAS</button>
                                 <p className="boton-text">Educción, Ilación, Especificación</p>
@@ -277,6 +296,7 @@ const Plantillas = () => {
                                 <button onClick={irAPruebasDeSoftware} className="pruebas-button">PRUEBAS DE SOFTWARE</button>
                                 <p className="boton-text">Especificación</p>
                             </div>
+                            */}
                         </div>
                     </section>
 

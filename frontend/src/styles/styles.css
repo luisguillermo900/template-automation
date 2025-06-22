@@ -109,3 +109,32 @@ p {
   visibility: visible; /* Muestra el tooltip al pasar el ratón */
   opacity: 1; /* Hace el tooltip visible */
 }
+
+.flex-container span {
+  position: relative;
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.3s ease-in-out;
+  font-weight: bold;
+}
+
+.flex-container span::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #a0005b ;
+  transition: width 0.3s ease-in-out;
+}
+
+.flex-container span:hover::after {
+  width: 100%;
+}
+
+.flex-container span:hover {
+  color: #a0005b;
+}
+
+

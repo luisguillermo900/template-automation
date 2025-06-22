@@ -1,5 +1,5 @@
 // frontend/src/view/RegistroProyecto.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import '../../styles/stylesRegistroProyecto.css';
@@ -15,6 +15,7 @@ const RegistroProyecto = () => {
     const [status, setEstadoProyecto] = useState("Active");
     const [comments, setComentariosProyecto] = useState("");
     const [creationDate, setFechaCreacion] = useState(new Date().toLocaleDateString()); // Fecha de creación automática
+    const [nombreOrganizacion, setNombreOrganizacion] = useState("");
 
     const [error, setError] = useState(null);
     const [errorNombreProyecto, setErrorNombreProyecto] = useState("");
@@ -40,6 +41,20 @@ const RegistroProyecto = () => {
         };
         fetchNextCodigo();
     }, [API_BASE_URL, orgcod]);
+
+    const fetchOrganizacion = useCallback(async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+        setNombreOrganizacion(response.data.name);
+    } catch (err) {
+        console.error("Error al obtener la organización:", err);
+        setNombreOrganizacion("Organización desconocida");
+    }
+    }, [API_BASE_URL, orgcod]);
+
+    useEffect(() => {
+        fetchOrganizacion();
+    }, [fetchOrganizacion]);
 
     // Función para registrar el proyecto
     const handleRegister = async (e) => {
@@ -88,7 +103,7 @@ const RegistroProyecto = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyectos}>Mocar Company /</span>
+                    <span onClick={irAListaProyectos}>{nombreOrganizacion || "Organización"} /</span>
                     <span>Nuevo Proyecto</span>
                 </div>
             </header>

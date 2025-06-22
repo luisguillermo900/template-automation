@@ -10,6 +10,8 @@ const NuevaFuente = () => {
     const hasFetched = useRef(false);
     // Obtener datos del proyecto del URL
     const { projcod, orgcod } = useParams();
+    const [organizacion, setOrganizacion] = useState({});
+    const [proyecto, setProyecto] = useState({});
 
     const [code, setCodigoFuente] = useState("");
     const [version, setVersionFuente] = useState("00.01");
@@ -25,8 +27,12 @@ const NuevaFuente = () => {
     const [name, setNombre] = useState("");
     const [status, setEstado] = useState("");
     const [comment, setComentario] = useState("");
+    const [sourceDate, setSourceDate] = useState("");
     //Estados para manejar errores
     const [error, setError] = useState(null);
+    const [errorName, setErrorName] = useState("");
+    const [errorComment, setErrorComment] = useState("");
+    const [errorSourceDate, setErrorSourceDate] = useState("");
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
 
     // Obtener el siguiente código de fuente
@@ -50,14 +56,41 @@ const NuevaFuente = () => {
         fetchNextCodigoFuente();
     }, [API_BASE_URL, orgcod, projcod]);
 
+  useEffect(() => {
+    const fetchDatos = async () => {
+        try {
+            const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(resOrg.data);
+
+            const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(resProyecto.data);
+        } catch (error) {
+            console.error("Error al obtener datos de organización o proyecto", error);
+        }
+        };
+        fetchDatos();
+  }, [orgcod, projcod, API_BASE_URL]);
+
     //Registrar Nueva fuente
     const registrarFuente = async (e) => {
+        
         e.preventDefault();
+
+        if (!name) {
+            setErrorName("El nombre es obligatorio.");
+            return;
+        }
+
+        if (!sourceDate) {
+        setErrorSourceDate("Debe seleccionar una fecha.");
+        return;
+    }
         try {
             // Realiza la solicitud POST con los datos correctos
             await axios.post(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/sources`, {
                 name,
-                comment, // Asumiendo que 'comentario' es un campo adicional
+                comment,
+                sourceDate, 
                 status, // Asumiendo que 'estado' es otro campo
             });
 
@@ -96,8 +129,8 @@ const NuevaFuente = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-                    <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
                     <span onClick={irAPlantillas}>Plantillas /</span>
                     <span onClick={irAFuentes}>Fuentes /</span>
                     <span>Nueva Fuente</span>
@@ -143,7 +176,33 @@ const NuevaFuente = () => {
                             </div>
                             <div className="ro-fiel-vers">
                                 <span class="message">
-                                    <input className="inputnombre-field" type="text" value={name} onChange={(e) => setNombre(e.target.value)} size="110" />
+                                    <input
+                                    type="text"
+                                    className="inputnombre-field"
+                                    placeholder="Nombre de la fuente"
+                                    value={name}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s().,_\-&\/]*$/;
+
+                                        if (permitido.test(value) && value.length <= 50) {
+                                        setNombre(value);
+                                        setErrorName(""); // limpiar el error si todo está bien
+                                        } else {
+                                        setErrorName("No se permiten caracteres especiales.");
+                                        // No actualiza el input → no se muestra el carácter inválido
+                                        }
+                                    }}
+                                    onBlur={() => {
+                                        if (!name.trim()) {
+                                        setErrorName("Este campo es obligatorio.");
+                                        }
+                                    }}
+                                    maxLength={50}
+                                    size="100"
+                                    />
+                                    {errorName && (
+                                    <p style={{ color: 'red', margin: 0 }}>{errorName}</p>)}
                                     <span class="tooltip-text"> Ingresar el nombre de la fuente </span>
                                 </span><br />
                                 {/*<span class="message">
@@ -156,40 +215,81 @@ const NuevaFuente = () => {
 
                     </section>
                     <section className="ro-organization">
-                        <h3>
-                            <label className="ro-codigo">Fecha Fuente* </label>
-                            {/*<label className="ro-version">Autor de plantilla </label>*/}
-                            <label className="ro-Fecha">Estado* </label>
-                        </h3>
-                        <div className="ro-cod-vers">
-                            <div className="ro-fiel-cod">
-                                <span class="message">
-                                    <input type="text" className="inputfechafuen-field" size="45" />
-                                    <span class="tooltip-text"> Ingresar la fecha de la fuente </span>
-                                </span>
+                                <h3 style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    <label className="ro-codigo" style={{ width: '48%' }}>Fecha Fuente*</label>
+                                    <label className="ro-Fecha" style={{ width: '48%' }}>Estado*</label>
+                                </h3>
 
-                            </div>
-                            {/*<div className="ro-fiel-vers">
-                                <span class="message">
-                                    <input type="text" className="inputBloq-field"  readOnly size="30" />
-                                    <span class="tooltip-text"> Codigo del autor de la fuente </span>
-                                </span>
-                                
-                            </div>*/}
-                            <div className="ro-fiel-fecha">
-                                <select id="estado" name="estado" required>
-                                    <option value="">Seleccione un estado</option>
-                                    <option value="activo">Activo</option>
-                                    <option value="inactivo">Inactivo</option>
-                                    <option value="pendiente">Pendiente</option>
-                                </select>
-                            </div>
-                        </div>
-                    </section>
+                                <div className="ro-cod-vers" style={{ display: 'flex', justifyContent: 'space-between', gap: '4%' }}>
+                                    {/* Fecha Fuente */}
+                                    <div className="ro-fiel-cod" style={{ width: '48%' }}>
+                                        <span className="message">
+                                            <input 
+                                            type="date" 
+                                            className="inputfechafuen-field" 
+                                            value={sourceDate}
+                                            onChange={(e) => {
+                                                setSourceDate(e.target.value);
+                                                setErrorSourceDate(""); // Limpiar error si selecciona fecha
+                                            }}
+                                            onBlur={() => {
+                                                if (!sourceDate) {
+                                                    setErrorSourceDate("Debe seleccionar una fecha.");
+                                                }
+                                            }}
+                                            required
+                                            style={{ width: '100%' }}
+                                        />
+                                        <span className="tooltip-text">Seleccionar la fecha de la fuente</span>
+                                    </span>
+                                    {errorSourceDate && <p style={{ color: 'red', margin: 0 }}>{errorSourceDate}</p>}
+                                            <span className="tooltip-text">Seleccionar la fecha de la fuente</span>
+                                       
+                                    </div>
+
+                                    {/* Estado */}
+                                    <div className="ro-fiel-fecha" style={{ width: '48%' }}>
+                                        <select 
+                                            id="estado" 
+                                            name="estado" 
+                                            className="inputfechafuen-field"
+                                            value={status}
+                                            onChange={(e) => setEstado(e.target.value)}
+                                            required
+                                            style={{ width: '100%' }}
+                                        >
+                                            <option value="">Seleccione un estado</option>
+                                            <option value="Activo">Activo</option>
+                                            <option value="Inactivo">Inactivo</option>
+                                            <option value="Pendiente">Pendiente</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </section>
                     <section className="ro-organizations-section">
                         <h3>Comentario*</h3>
                         <div className="input-text">
-                            <textarea className="input-fieldtext" rows="3" placeholder="Añadir comentarios sobre la fuente"></textarea>
+                            <textarea
+                                className="input-fieldtext"
+                                rows="3"
+                                value={comment}
+                                placeholder="Añadir comentarios"
+                                maxLength={300}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s.,;:()¿?!¡"'\-]*$/;
+
+                                    // Validar: solo permitir si cumple el patrón
+                                    if (permitido.test(value)) {
+                                    setComentario(value);
+                                    setErrorComment("");
+                                    } else {
+                                    setErrorComment("No se permiten caracteres especialeS.");
+                                    }
+                                }}
+                                ></textarea>
+
+                                {errorComment && <p style={{ color: 'red', margin: 0 }}>{errorComment}</p>}
                         </div>
 
                         <div className="ro-buttons">

@@ -12,6 +12,7 @@ const ListaProyectos = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [nombreOrganizacion, setNombreOrganizacion] = useState("");
   
   // Estado para los parámetros de búsqueda
   const [searchNombre, setSearchNombre] = useState("");
@@ -61,10 +62,21 @@ const ListaProyectos = () => {
         setLoading(false); // Finalizar la carga en caso de error
     }
   }, [orgcod, API_BASE_URL]);
+
+  const fetchOrganizacion = useCallback(async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+    setNombreOrganizacion(response.data.name);
+  } catch (err) {
+    console.error("Error al obtener la organización:", err);
+    setNombreOrganizacion("Organización desconocida");
+  }
+}, [API_BASE_URL, orgcod]);
   
   useEffect(() => {
     fetchProjects();
-  }, [fetchProjects]);
+    fetchOrganizacion();
+  }, [fetchProjects, fetchOrganizacion]);
 
 
   const currentYear = new Date().getFullYear();
@@ -191,7 +203,7 @@ const exportToPDF = async () => {
         <h1>ReqWizards App</h1>
         <div className="flex-container">
           <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-          <span>Mocar Company</span>
+          <span>{nombreOrganizacion || "Cargando..."}</span>
         </div>
       </header>
 

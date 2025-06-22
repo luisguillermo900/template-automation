@@ -15,20 +15,27 @@ const MenuProyecto = () => {
     const [codigoAutor, setCodigoAutor] = useState("");
     const [resultados, setResultados] = useState([]);
     const [mensaje, setMensaje] = useState("");
+    const [organizacion, setOrganizacion] = useState({});
+
+    const [mostrarPopup, setMostrarPopup] = useState(false);
+
 
     // URL Base del API
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
     useEffect(() => {
-        const obtenerProyecto = async () => {
-            try {
-                const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${orgcod}`);
-                setProyecto(response.data);
-            } catch (error) {
-                console.log("Error al obtener el proyecto:", error);
-            }
-        };
-        obtenerProyecto();
-    }, [ projcod]);
+        const obtenerDatos = async () => {
+        try {
+            const orgResponse = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(orgResponse.data);
+
+            const projResponse = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(projResponse.data);
+        } catch (error) {
+            console.error("Error al obtener datos:", error);
+        }
+    };
+        obtenerDatos();
+    }, [ orgcod, projcod]);
 
     const descargarCatalogo = async () => {
         try {
@@ -110,8 +117,8 @@ const MenuProyecto = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-                    <span>Sistema Inventario</span>
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span>{proyecto.name || "Proyecto"}</span>
                 </div>
             </header>
 
@@ -149,9 +156,27 @@ const MenuProyecto = () => {
                     <section className="avance-section">
                         <h3>Avance del Proyecto</h3>
                         <div class="boton-container">
-                            <button className="catalogo-button"  onClick={descargarCatalogo}>DESCARGAR CATÁLOGO DE REQUISITOS</button>
+                            <button className="catalogo-button"  onClick={() => setMostrarPopup(true)}> DESCARGAR CATÁLOGO DE REQUISITOS</button>
                         </div>
                     </section>
+
+                    {mostrarPopup && (
+                        <div className="popup-overlay">
+                            <div className="popup-content">
+                            <p>¿Ha completado todas las interfaces necesarias para generar el catálogo?</p>
+                            <button className="si-button" onClick={() => {
+                                setMostrarPopup(false);
+                                descargarCatalogo();
+                            }}>
+                                Sí
+                            </button>
+
+                            <button className="no-button" onClick={() => setMostrarPopup(false)}>
+                                No
+                            </button>
+                            </div>
+                        </div>
+                    )}
 
                 </main>
             </div>

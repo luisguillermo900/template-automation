@@ -1,5 +1,5 @@
 // frontend/src/view/EditarProyecto.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import '../../styles/stylesRegistroProyecto.css';
@@ -8,6 +8,7 @@ import '../../styles/styles.css';
 const EditarProyecto = () => {
     const { orgcod, projcod } = useParams(); // Extraer los parámetros de la URL
     const navigate = useNavigate();
+    const [nombreOrganizacion, setNombreOrganizacion] = useState("");
 
     // Estados del proyecto
     const [code, setCodigoProyecto] = useState("");
@@ -54,6 +55,20 @@ const EditarProyecto = () => {
             fetchProjectData();
         }
     }, [orgcod, projcod, API_BASE_URL]);
+
+    const fetchOrganizacion = useCallback(async () => {
+    try {
+        const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+        setNombreOrganizacion(response.data.name);
+    } catch (err) {
+        console.error("Error al obtener la organización:", err);
+        setNombreOrganizacion("Organización desconocida");
+    }
+    }, [API_BASE_URL, orgcod]);
+
+      useEffect(() => {
+        fetchOrganizacion();
+      }, [fetchOrganizacion]);
       
     // Manejar la actualización del proyecto
     const handleUpdate = async (e) => {
@@ -104,7 +119,7 @@ const EditarProyecto = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyectos}>Mocar Company /</span>
+                    <span onClick={irAListaProyectos}>{nombreOrganizacion || "Organización"} /</span>
                     <span>Editar Proyecto</span>
                 </div>
             </header>

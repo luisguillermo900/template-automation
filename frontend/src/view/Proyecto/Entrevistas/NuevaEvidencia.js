@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from 'axios';
 import '../../../styles/stylesNuevaEvidencia.css';
@@ -10,6 +10,8 @@ const NuevaEvidencia = () => {
     const location = useLocation();
     const {orgcod, projcod } = useParams();
     const { proid, entrevistas} = location.state || {};
+    const [organizacion, setOrganizacion] = useState({});
+    const [proyecto, setProyecto] = useState({});
 
     const [selectedInterviewId, setSelectedInterviewId] = useState("");
     const [codigoEvidencia, setCodigoEvidencia] = useState("");
@@ -103,7 +105,20 @@ const NuevaEvidencia = () => {
         }
     };
 
+    useEffect(() => {
+    const fetchDatos = async () => {
+        try {
+            const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(resOrg.data);
 
+            const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(resProyecto.data);
+        } catch (error) {
+            console.error("Error al obtener datos de organización o proyecto", error);
+        }
+        };
+        fetchDatos();
+  }, [orgcod, projcod, API_BASE_URL]);
 
     const irAMenuOrganizaciones = () => {
         navigate("/organizations");
@@ -136,8 +151,8 @@ const NuevaEvidencia = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-                    <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
                     <span onClick={irAEntrevistas}>Entrevistas /</span>
                     <span>Nueva Evidencia</span>
                 </div>  

@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useEffect, useState } from "react"; 
 import axios from "axios"; 
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import '../../../styles/stylesNuevaEntrevista.css';
@@ -9,6 +9,8 @@ const NuevaEntrevista = () => {
     const location = useLocation();
     const {orgcod, projcod } = useParams();
     const { proid } = location.state || {};
+    const [organizacion, setOrganizacion] = useState({});
+    const [proyecto, setProyecto] = useState({});
 
     const [version, setVersion] = useState("01.00");
     const [interviewName, setInterviewName] = useState("");
@@ -136,6 +138,21 @@ const NuevaEntrevista = () => {
     }
 };
 
+    useEffect(() => {
+        const fetchDatos = async () => {
+            try {
+                const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+                setOrganizacion(resOrg.data);
+
+                const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+                setProyecto(resProyecto.data);
+            } catch (error) {
+                console.error("Error al obtener datos de organización o proyecto", error);
+            }
+            };
+            fetchDatos();
+        }, [orgcod, projcod, API_BASE_URL]);
+
   const addAgendaItem = () => {
     setAgendaItems([...agendaItems, ""]);
   };
@@ -176,8 +193,8 @@ const NuevaEntrevista = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-                    <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
                     <span onClick={irAEntrevistas}>Entrevistas /</span>
                     <span>Nueva entrevista</span>
                 </div>

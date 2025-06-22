@@ -18,6 +18,8 @@ const EditarRol = () => {
     const [error, setError] = useState(null);
     const [errorComentarios, setErrorComentarios] = useState("");
     const [errorRol, setErrorRol] = useState("");
+    const [organizacion, setOrganizacion] = useState({});
+    const [proyecto, setProyecto] = useState({});
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
 
@@ -38,6 +40,21 @@ const EditarRol = () => {
     useEffect(() => {
             fetchRolData();
     }, [idRol]);
+
+    useEffect(() => {
+    const fetchDatos = async () => {
+        try {
+            const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(resOrg.data);
+
+            const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(resProyecto.data);
+        } catch (error) {
+            console.error("Error al obtener datos de organización o proyecto", error);
+        }
+        };
+        fetchDatos();
+    }, [orgcod, projcod, API_BASE_URL]);
 
     const handleEdit = async (e) => {
         e.preventDefault();
@@ -108,8 +125,8 @@ const EditarRol = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-                    <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
                     <span onClick={irARoles}>Roles /</span>
                     <span>Editar rol</span>
                 </div>

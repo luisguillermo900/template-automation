@@ -15,6 +15,9 @@ const Autores = () => {
     const [error, setError] = useState(null);
     // Estado para los parámetros de búsqueda
     const [searchNombre, setSearchNombre] = useState("");
+    const [organizacion, setOrganizacion] = useState({});
+    const [proyecto, setProyecto] = useState({});
+
 
     const [mostrarPopup, setMostrarPopup] = useState(false);
     const [idAEliminar, setIdAEliminar] = useState(null); 
@@ -43,6 +46,22 @@ const Autores = () => {
         fetchAuthors();
 
     }, [fetchAuthors]);
+
+    useEffect(() => {
+    const fetchDatos = async () => {
+        try {
+            const resOrg = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);
+            setOrganizacion(resOrg.data);
+
+            const resProyecto = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}`);
+            setProyecto(resProyecto.data);
+        } catch (error) {
+            console.error("Error al obtener datos de organización o proyecto", error);
+        }
+        };
+        fetchDatos();
+    }, [orgcod, projcod, API_BASE_URL]);
+
     // Función para buscar autores
     const handleSearch = async () => {
         try {
@@ -196,9 +215,10 @@ const Autores = () => {
                 <h1>ReqWizards App</h1>
                 <div className="flex-container">
                     <span onClick={irAMenuOrganizaciones}>Menú Principal /</span>
-                    <span onClick={irAListaProyecto}>Mocar Company /</span>
-                    <span onClick={irAMenuProyecto}>Sistema Inventario /</span>
+                    <span onClick={irAListaProyecto}>{organizacion.name || "Organización"} /</span>
+                    <span onClick={irAMenuProyecto}>{proyecto.name || "Proyecto"} /</span>
                     <span>Autores</span>
+
                 </div>
             </header>
 
