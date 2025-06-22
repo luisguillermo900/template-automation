@@ -1,0 +1,245 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    /* Evita scroll de la página en general */
+    flex-direction: column;
+}
+
+.rp-container {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    color: #4B125F;
+    border: 4px solid #771d4b;
+    height: 100vh;
+    /* Ocupa toda la altura de la ventana */
+    width: 100vw;
+    /* Ocupa toda la anchura de la ventana */
+}
+
+.rpsub-container {
+    display: flex;
+    flex-grow: 1;
+    /* Hace que el contenedor ocupe el espacio disponible */
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.rp-header {
+    background-color: #E4D2DB;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.rp-header h1 {
+    font-size: 1.5em;
+    padding-left: 6%;
+}
+
+.rp-header span {
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: auto;
+}
+
+.logout-button,
+.rp-button {
+    background-color: #B4508A;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.rp-button {
+    margin-left: 20px;
+}
+
+.sidebar {
+    background-color: #E4D2DB;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 3px solid #771d4b;
+    border-right: 3px solid #771d4b;
+    height: 100%;
+    /* Ajusta la altura para que ocupe toda la pantalla */
+    flex-shrink: 0;
+    /* Evita que la barra lateral se reduzca */
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.profile-icon {
+    font-size: 150px;
+    color: #4B125F;
+    margin-bottom: 10px;
+}
+
+.bar-rp {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #771d4c;
+    color: rgb(252, 250, 250);
+    align-items: center;
+    padding-left: 3%;
+    border-top: 8px solid #771d4b;
+    border-bottom: 8px solid #771d4b;
+    width: 100%;
+    font-weight: bolder;
+    font-size: larger;
+    cursor: pointer;
+}
+
+.p1 {
+    align-items: center;
+    margin-top: 2px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/*Seccion contenido general*/
+.rp-content {
+    margin: 0;
+    background-color: white;
+    flex-grow: 1;
+    padding: 0px;
+    border-top: 3px solid #771d4b;
+    overflow-y: auto;
+    /* Permite desplazamiento si el contenido excede la pantalla */
+    width: calc(100% - 200px);
+    /* Ocupa el ancho restante sin la barra lateral */
+}
+
+.rp-content h2 {
+    text-align: center;
+    color: #771d4b;
+    font-size: 1.5em;
+    margin-top: 10px;
+    margin-bottom:  10px;
+}
+
+.rp-content h3 {
+    background: white;
+    margin-left: 0;
+    padding-left: 3%;
+    border-top: 2px solid #771d4b;
+    border-bottom: 2px solid #771d4b;
+    color: #4B125F;
+}
+
+.rp-organization-section,
+.rp-organizations-section {
+    margin-top: 10px;
+}
+
+.rp-codigo{
+    margin-left: -5%;
+}
+.rp-version {
+    margin-left: 40%;
+}
+.rp-cod-vers{
+    margin-top: 2px;
+    display: flex;
+    align-content: center;
+}
+.rp-cod-vers2{
+    margin-top: 2px;
+    display: flex;
+    gap: 8px; /* o 4px para menos separación */
+    align-items: center;
+    margin-bottom: 8px; 
+    padding-left: 20px;
+}
+.inputBloq-field{
+    background-color: #E4D2DB;
+    text-align: center;
+    color: black;
+    border-radius: 5px;
+}
+.inputBloq-field2{
+    background-color: white;
+    text-align: center;
+    color: black;
+    border-radius: 5px;
+}
+.fiel-cod{
+    margin-left: 100px;
+    margin-right: 50px;
+    width: 200px;
+}
+.fiel-cod-e{
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.fiel-vers{
+    margin-left: 80px;
+    margin-top: 10px;
+}
+.fiel-vers2 {
+  margin: 0; 
+}
+
+/*comentario*/
+.input-text{
+    margin-top: 15px;
+    margin-left: 100px;    
+    
+}
+
+.input-fieldtext {
+    resize: auto;
+    width: 87%;
+    border: 2px solid #da99b7;
+    border-radius: 4px;
+}
+
+.rp-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 775px;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #7a1a5e;
+}
+
+.ro-fiel-cod-mar {
+    margin-left: 0px;
+    margin-right: 100px;
+}
+
+.input-numero-agenda {
+  width: fit-content;
+  min-width: 3ch;
+  max-width: 8ch; 
+  padding: 4px 8px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}

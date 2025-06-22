@@ -1,0 +1,305 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    /* Evita scroll de la página en general */
+}
+
+.ne-container {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    color: #4B125F;
+    border: 4px solid #771d4b;
+    height: 100vh;
+    /* Ocupa toda la altura de la ventana */
+    width: 100vw;
+    /* Ocupa toda la anchura de la ventana */
+}
+
+.nesub-container {
+    display: flex;
+    flex-grow: 1;
+    /* Hace que el contenedor ocupe el espacio disponible */
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.ne-header {
+    background-color: #E4D2DB;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.ne-header h1 {
+    font-size: 1.5em;
+    padding-left: 6%;
+}
+
+.ne-header span {
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: auto;
+}
+
+.logout-button,
+.ne-button {
+    background-color: #B4508A;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.ne-button {
+    margin-left: 20px;
+}
+
+.sidebar {
+    background-color: #E4D2DB;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 3px solid #771d4b;
+    border-right: 3px solid #771d4b;
+    height: 100%;
+    /* Ajusta la altura para que ocupe toda la pantalla */
+    flex-shrink: 0;
+    /* Evita que la barra lateral se reduzca */
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.profile-icon {
+    font-size: 150px;
+    color: #4B125F;
+    margin-bottom: 10px;
+}
+
+.bar-ne {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #771d4c;
+    color: rgb(252, 250, 250);
+    align-items: center;
+    padding-left: 3%;
+    border-top: 8px solid #771d4b;
+    border-bottom: 8px solid #771d4b;
+    width: 100%;
+    font-weight: bolder;
+    font-size: larger;
+    cursor: pointer;
+}
+
+.p1 {
+    align-items: center;
+    margin-top: 2px;
+    color: #ffffff;
+    
+}
+
+/*Seccion contenido general*/
+.ne-content {
+    margin: 0;
+    background-color: white;
+    flex-grow: 1;
+    padding: 0px;
+    border-top: 3px solid #771d4b;
+    overflow-y: auto;
+    /* Permite desplazamiento si el contenido excede la pantalla */
+    width: calc(100% - 200px);
+    /* Ocupa el ancho restante sin la barra lateral */
+}
+.ne-content h2 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #771d4b;
+    font-size: 1.5em;
+    margin-bottom: px;
+}
+
+.ne-content h3 {
+    background: white;
+    margin-left: 0;
+    padding-left: 3%;
+    border-top: 2px solid #771d4b;
+    border-bottom: 2px solid #771d4b;
+    color: #4B125F;
+}
+.ne-content h4 {
+    margin: 0;
+    padding-right: 5px;
+    text-align: left;
+    flex-shrink: 0; 
+    
+}
+.ne-organization-section,
+.ne-organizations-section {
+    margin-top: 10px;
+}
+
+
+.ne-organization {
+    text-align: center;
+}
+
+
+.ne-label-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.ne-label {
+    flex: 1; 
+    text-align: center; 
+}
+
+.ne-input-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    gap: 50px; 
+    margin: 20px;
+}
+
+/* Estilos genéricos de inputs */
+.ne-input {
+    flex: 1; 
+    background-color: #E4D2DB;
+    text-align: center;
+    color: black;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px; 
+    height: 30px; /* Ajusta para que el select tenga el mismo alto que los inputs */
+    box-sizing: border-box; /* Incluye padding y border en el cálculo del ancho */
+}
+
+.custom-select-dropdown {
+    position: relative;
+    flex: 1;
+    
+}
+
+.dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #E4D2DB;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+    border: 1px solid #a3616c;
+}
+
+.dropdown-arrow {
+    margin-left: auto;
+    color: #333; /* Ajusta el color de la flecha */
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.dropdown-item input {
+    margin-right: 10px;
+}
+
+.dropdown-item:last-child {
+    margin-bottom: 0;
+}
+.ne-cod-vers {
+    display: flex;
+    align-items: center; 
+    margin-top: 10px; 
+}
+/*comentario*/
+.input-text {
+    width: 100%; 
+    padding: 5px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+.estado-input{
+    border: 1px solid #a3616c;
+}
+
+.input-fieldtext {
+    resize: auto;
+    width: 87%;
+    border: 2px solid #da99b7;
+    border-radius: 4px;
+}
+
+.ne-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 775px;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #7a1a5e;
+}
+
+.fiel-cod{
+    margin-left: 100px;
+    margin-right: 50px;
+    width: 200px;
+}
+.fiel-vers{
+    flex-grow: 1; 
+    display: flex;
+    align-items: center;
+}

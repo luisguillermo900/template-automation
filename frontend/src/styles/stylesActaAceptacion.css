@@ -1,0 +1,241 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    /* Evita scroll de la página en general */
+}
+
+.acta-container {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    color: #4B125F;
+    border: 4px solid #771d4b;
+    height: 100vh;
+    /* Ocupa toda la altura de la ventana */
+    width: 100vw;
+    /* Ocupa toda la anchura de la ventana */
+}
+
+.actasub-container {
+    display: flex;
+    flex-grow: 1;
+    /* Hace que el contenedor ocupe el espacio disponible */
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.acta-header {
+    background-color: #E4D2DB;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.acta-header h1 {
+    font-size: 1.5em;
+    padding-left: 6%;
+}
+
+.acta-header span {
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: auto;
+}
+
+.logout-button,
+.acta-button {
+    background-color: #B4508A;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.acta-button {
+    margin-left: 3%;
+}
+
+.sidebar {
+    background-color: #E4D2DB;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 3px solid #771d4b;
+    border-right: 3px solid #771d4b;
+    height: 100%;
+    /* Ajusta la altura para que ocupe toda la pantalla */
+    flex-shrink: 0;
+    /* Evita que la barra lateral se reduzca */
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.profile-icon {
+    font-size: 150px;
+    color: #4B125F;
+    margin-bottom: 10px;
+}
+
+.bar-rp {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #771d4c;
+    color: rgb(252, 250, 250);
+    align-items: center;
+    padding-left: 3%;
+    border-top: 8px solid #771d4b;
+    border-bottom: 8px solid #771d4b;
+    width: 100%;
+    font-weight: bolder;
+    font-size: larger;
+    cursor: pointer;
+}
+
+.p1 {
+    align-items: center;
+    margin-top: 2px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/*Seccion contenido general*/
+.acta-content {
+    margin: 0;
+    background-color: white;
+    flex-grow: 1;
+    padding: 0px;
+    border-top: 3px solid #771d4b;
+    overflow-y: auto;
+    /* Permite desplazamiento si el contenido excede la pantalla */
+    width: calc(100% - 200px);
+    /* Ocupa el ancho restante sin la barra lateral */
+}
+
+.acta-content h2 {
+    text-align: left;
+    color: #771d4b;
+    font-size: 1.5em;
+    margin-top: 10px;
+    margin-bottom:  10px;
+}
+
+.acta-content h3 {
+    background: white;
+    margin-left: 0;
+    padding-left: 3%;
+    border-top: 2px solid #771d4b;
+    border-bottom: 2px solid #771d4b;
+    color: #4B125F;
+}
+
+.acta-organization-section,
+.acta-organizations-section {
+    margin-top: 10px;
+}
+
+.acta-organization {
+    text-align: center;
+}
+
+.acta-codigo{
+    margin-left: -5%;
+}
+.acta-version {
+    margin-left: 40%;
+}
+.acta-cod-vers{
+    margin-top: 2px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.acta-inputBloq-field{
+    background-color: #ffffff;
+    color: black;
+    width: 100px;
+    height: 500px
+
+}
+.fiel-cod{
+    margin-left: 100px;
+    margin-right: 50px;
+}
+.fiel-vers{
+    margin-left: 80px;
+}
+
+/*comentario*/
+.input-text{
+    margin-top: 15px;
+    margin-left: 100px;    
+    
+}
+
+.input-fieldtext {
+    resize: auto;
+    width: 87%;
+    border: 2px solid #da99b7;
+    border-radius: 4px;
+}
+
+.acta-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 91%;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #7a1a5e;
+}
+
+.file-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* Ocupa todo el ancho del contenedor */
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+    overflow: auto;
+}
+
+.file-preview-img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.file-preview-pdf {
+    width: 100%;
+    /* Ajusta para que ocupe todo el ancho del contenedor */
+    height: 600px;
+    /* Puedes ajustar la altura según lo que necesites */
+    border: none;
+}

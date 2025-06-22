@@ -1,0 +1,361 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  username  String  @unique
+  password  String
+  firstName String
+  lastName  String
+  isActive  Boolean @default(true)
+}
+
+model Organization {
+  id                  String    @id @default(uuid())
+  code                String    @unique
+  version             String
+  creationDate        DateTime  @default(now())
+  modificationDate    DateTime?
+  name                String
+  address             String?
+  phone               String?
+  legalRepresentative String?
+  representativePhone String?
+  taxId               String?
+  contact             String?
+  contactPhone        String?
+  status              String?
+  comments            String?
+  actors              Actor[]
+  authors             Author[]
+  projects            Project[]
+}
+
+model Project {
+  id                String                     @id @default(uuid())
+  code              String
+  version           String                     @default("00.01")
+  name              String
+  description       String?
+  creationDate      DateTime                   @default(now())
+  modificationDate  DateTime?
+  status            String?
+  comments          String?
+  organizationId    String
+  acceptanceRecords AcceptanceRecord[]
+  actors            Actor[]
+  educciones        Educcion[]
+  relationships     EntityRelationship[]
+  experts           Expert[]
+  interfaces        Interface[]
+  interviews        Interview[]
+  nfrs              NonFunctionalRequirement[]
+  organization      Organization               @relation(fields: [organizationId], references: [id])
+  risks             Risk[]
+  sources           Source[]
+
+  @@unique([code, organizationId])
+}
+
+model AcceptanceRecord {
+  id         String   @id @default(uuid())
+  projectId  String
+  filePath   String
+  fileType   String
+  uploadDate DateTime @default(now())
+  project    Project  @relation(fields: [projectId], references: [id])
+}
+
+model Interview {
+  id              String       @id @default(uuid())
+  interviewName   String
+  version         String
+  interviewDate   DateTime
+  authorId        String
+  intervieweeName String
+  intervieweeRole String?
+  startTime       DateTime
+  endTime         DateTime?
+  observations    String?
+  projectId       String
+  agendaItems     AgendaItem[]
+  conclusions     Conclusion[]
+  evidences       Evidence[]
+  author          Author       @relation(fields: [authorId], references: [id])
+  project         Project      @relation(fields: [projectId], references: [id])
+}
+
+model AgendaItem {
+  id          String    @id @default(uuid())
+  description String
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id])
+}
+
+model Conclusion {
+  id          String    @id @default(uuid())
+  description String
+  interviewId String
+  interview   Interview @relation(fields: [interviewId], references: [id])
+}
+
+model Evidence {
+  id           String    @id @default(uuid())
+  code         String
+  name         String
+  type         String
+  interviewId  String
+  evidenceDate DateTime  @default(now())
+  file         String
+  interview    Interview @relation(fields: [interviewId], references: [id])
+
+  @@unique([code, interviewId])
+}
+
+model Interface {
+  id        String   @id @default(uuid())
+  code      String   @unique
+  name      String
+  version   String
+  date      DateTime @default(now())
+  filePath  String
+  fileType  String
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id])
+}
+
+model NonFunctionalRequirement {
+  id               String    @id @default(uuid())
+  code             String    @unique
+  version          String
+  creationDate     DateTime  @default(now())
+  modificationDate DateTime?
+  name             String
+  qualityAttribute String
+  description      String
+  status           String
+  importance       String
+  comment          String?
+  projectId        String
+  sourceNfrCode    String?
+  project          Project   @relation(fields: [projectId], references: [id])
+}
+
+model Educcion {
+  id               String    @id @default(uuid())
+  version          String
+  code             String
+  comment          String?
+  creationDate     DateTime  @default(now())
+  description      String
+  importance       String
+  modificationDate DateTime?
+  name             String
+  projectId        String
+  status           String
+  project          Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  ilaciones        Ilacion[]
+
+  @@unique([code, projectId])
+}
+
+model Ilacion {
+  id               String          @id @default(uuid())
+  version          String          @default("01.00")
+  code             String
+  comment          String?
+  creationDate     DateTime        @default(now())
+  importance       String
+  modificationDate DateTime?
+  name             String
+  postcondition    String
+  precondition     String
+  procedure        String
+  status           String
+  educcionId       String
+  educcion         Educcion        @relation(fields: [educcionId], references: [id])
+  specifications   Specification[]
+
+  @@unique([code, educcionId])
+}
+
+model Specification {
+  id               String    @id @default(uuid())
+  code             String
+  version          String    @default("01.00")
+  name             String
+  creationDate     DateTime  @default(now())
+  modificationDate DateTime?
+  status           String
+  importance       String
+  ilacionId        String
+  precondition     String
+  procedure        String
+  postcondition    String
+  comment          String?
+  ilacion          Ilacion   @relation(fields: [ilacionId], references: [id])
+
+  @@unique([code, ilacionId])
+}
+
+model Role {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  creationDate DateTime @default(now())
+  code         String   @unique
+  comments     String?
+  status       String   @default("Active")
+  actors       Actor[]
+  authors      Author[]
+
+  @@map("Role")
+}
+
+model Author {
+  id                     String        @id @default(uuid())
+  code                   String        @unique
+  firstName              String
+  paternalSurname        String?
+  maternalSurname        String?
+  alias                  String?
+  status                 String
+  roleId                 String?
+  canEditActors          Boolean       @default(false)
+  canEditArtefacts       Boolean       @default(false)
+  canEditEducation       Boolean       @default(false)
+  canEditExperts         Boolean       @default(false)
+  canEditIlaciones       Boolean       @default(false)
+  canEditInterviews      Boolean       @default(false)
+  canEditMetrics         Boolean       @default(false)
+  canEditRequirements    Boolean       @default(false)
+  canEditSoftwareTests   Boolean       @default(false)
+  canEditSources         Boolean       @default(false)
+  canEditSpecifications  Boolean       @default(false)
+  canEditWorkplaceSafety Boolean       @default(false)
+  comments               String?
+  creationDate           DateTime      @default(now())
+  dni                    String?
+  modificationDate       DateTime?
+  organizationId         String?
+  password               String?
+  phone                  String?
+  templateAuthorId       String?
+  version                String        @default("00.01")
+  actorsCreated          Actor[]       @relation("ActorAuthor")
+  organization           Organization? @relation(fields: [organizationId], references: [id])
+  role                   Role?         @relation(fields: [roleId], references: [id])
+  templateAuthor         Author?       @relation("AuthorTemplate", fields: [templateAuthorId], references: [id])
+  createdAuthors         Author[]      @relation("AuthorTemplate")
+  interviews             Interview[]
+
+  @@map("Author")
+}
+
+model Actor {
+  id               String        @id @default(uuid())
+  code             String        
+  name             String
+  projectId        String
+  roleId           String
+  status           String
+  type             String
+  authorId         String?
+  comments         String?
+  creationDate     DateTime      @default(now())
+  modificationDate DateTime?
+  organizationId   String?
+  version          String        @default("00.01")
+  author           Author?       @relation("ActorAuthor", fields: [authorId], references: [id])
+  organization     Organization? @relation(fields: [organizationId], references: [id])
+  project          Project       @relation(fields: [projectId], references: [id])
+  role             Role          @relation(fields: [roleId], references: [id])
+
+  @@unique([code, projectId])
+}
+
+model Source {
+  id               String    @id @default(uuid())
+  code             String
+  version          String
+  creationDate     DateTime  @default(now())
+  modificationDate DateTime?
+  name             String
+  sourceAuthors    String?
+  sourceDate       DateTime?
+  comment          String?
+  status           String
+  projectId        String
+  project          Project   @relation(fields: [projectId], references: [id])
+
+  @@unique([code, projectId])
+}
+
+model Expert {
+  id               String    @id @default(uuid())
+  code             String
+  version          String
+  creationDate     DateTime  @default(now())
+  modificationDate DateTime?
+  paternalSurname  String
+  maternalSurname  String?
+  firstName        String
+  experience       String
+  comment          String?
+  status           String
+  externalOrganization String? 
+  projectId        String
+  project          Project   @relation(fields: [projectId], references: [id])
+
+  @@unique([code, projectId]) 
+
+}
+
+model EntityRelationship {
+  id           String  @id @default(uuid())
+  projectId    String
+  entityType   String
+  entityId     String
+  relationType String
+  relatedId    String
+  project      Project @relation(fields: [projectId], references: [id])
+}
+
+model Risk {
+  id               String    @id @default(uuid())
+  projectId        String
+  entityType       String
+  registryCode     String
+  code             String    @unique
+  description      String
+  impact           String
+  probability      String
+  status           String
+  creationDate     DateTime  @default(now())
+  comments         String?
+  modificationDate DateTime?
+  sourceRiskCode   String?
+  project          Project   @relation(fields: [projectId], references: [id])
+}
+
+model Artifact {
+  id       String @id @default(uuid())
+  name     String @unique
+  mnemonic String @unique
+}
+
+model Counter {
+  id        String @id @default(uuid())
+  entity    String
+  contextId String
+  counter   Int    @default(0)
+
+  @@unique([entity, contextId])
+}

@@ -1,0 +1,247 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.autor-container {
+    display: flex;
+    background-color: white;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    color: #4B125F;
+    border: 4px solid #771d4b;
+    height: 100vh;
+    /* Ocupa toda la altura de la ventana */
+    width: 100vw;
+    /* Ocupa toda la anchura de la ventana */
+}
+
+.autorsub-container {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+}
+.autor-organizations-section{
+    margin-top: 20px;
+}
+
+/* Encabezado */
+.autor-header {
+    background-color: #E4D2DB;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.autor-header h1 {
+    font-size: 1.5em;
+    padding-left: 6%;
+}
+
+.autor-header span {
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+/* Barra lateral */
+.autor-sidebar {
+    background-color: #E4D2DB;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 3px solid #771d4b;
+    border-right: 3px solid #771d4b;
+    height: 100%;
+    /* Ajusta la altura para que ocupe toda la pantalla */
+    flex-shrink: 0;
+    /* Evita que la barra lateral se reduzca */
+}
+.bar-lista p1 {
+    color: #fafafa;
+    font-weight: bold;
+}
+.autor-profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.autor-profile-icon {
+    font-size: 150px;
+    color: #4B125F;
+    margin-bottom: 10px;
+}
+
+.bar-lista {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #771d4b;
+    color: rgb(252, 250, 250);
+    align-items: center;
+    padding-left: 3%;
+    border-top: 8px solid #771d4b;
+    border-bottom: 8px solid #771d4b;
+    width: 100%;
+    font-weight: bolder;
+    font-size: larger;
+    cursor: pointer;
+}
+
+.autor-logout-button {
+    background-color: #B4508A;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+    
+}
+
+/* Contenido principal */
+.autor-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    border-top: 3px solid #771d4b;
+    width: calc(100% - 250px);
+}
+
+.autor-content h2 {
+    color: #4B125F;
+    font-size: 1.8em;
+    font-weight: bold;
+}
+
+/* Sección de búsqueda y botones */
+.autor-sectionTextBuscar {
+    display: flex;
+    margin-right: 50px;
+}
+
+.autor-register-button {
+    background-color: #771d4b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1em;
+    margin-right: 20px;
+}
+
+.autor-textBuscar {
+    padding: 8px;
+    border: 1px solid #4B125F;
+    border-radius: 5px;
+}
+
+.autor-register-button,.autor-search-button {
+    background-color: #B4508A;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.autor-search-section-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.autor-search-section-text {
+    display: flex;
+    margin-left: 82%;
+    
+    margin-bottom: 10px;
+}
+.autor-searchbar {
+    display: flex;
+    margin-right: 50px;
+    
+}
+
+.autor-year-input, .autor-month-input {
+    width: 70px;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+
+.autor-centertabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    
+}
+
+.autor-centertabla th, .autor-centertabla td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.autor-centertabla th {
+    background-color: #E9E4EA;
+    color: #4B125F;
+}
+
+.autor-centertabla tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.autor-centertabla tbody tr:hover {
+    background-color: #E4D2DB;
+}
+
+/* Total de registros y botones de exportación */
+.autor-h4 {
+    margin-top: 20px;
+    color: #4B125F;
+}
+
+.autor-export-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.autor-export-button {
+    background-color: #B4508A;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.botton-crud{
+    margin-left: 6px;
+}
+button:hover {
+    background-color: #7a1a5e;
+}

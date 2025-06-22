@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    /* Evita scroll de la página en general */
+}
+
+.rr-container {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    color: #4B125F;
+    border: 4px solid #771d4b;
+    height: 100vh;
+    /* Ocupa toda la altura de la ventana */
+    width: 100vw;
+    /* Ocupa toda la anchura de la ventana */
+}
+
+.rrsub-container {
+    display: flex;
+    flex-grow: 1;
+    /* Hace que el contenedor ocupe el espacio disponible */
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.rr-header {
+    background-color: #E4D2DB;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    /* Abarca todo el ancho */
+}
+
+.rr-header h1 {
+    font-size: 1.5em;
+    padding-left: 6%;
+}
+
+.rr-header span {
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: auto;
+}
+
+.logout-button,
+.rr-button {
+    background-color: #B4508A;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.rr-button {
+    margin-left: 20px;
+}
+
+.sidebar {
+    background-color: #E4D2DB;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 3px solid #771d4b;
+    border-right: 3px solid #771d4b;
+    height: 100%;
+    /* Ajusta la altura para que ocupe toda la pantalla */
+    flex-shrink: 0;
+    /* Evita que la barra lateral se reduzca */
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.profile-icon {
+    font-size: 150px;
+    color: #4B125F;
+    margin-bottom: 10px;
+}
+
+.bar-rr {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    background: #771d4c;
+    color: rgb(252, 250, 250);
+    align-items: center;
+    padding-left: 3%;
+    border-top: 8px solid #771d4b;
+    border-bottom: 8px solid #771d4b;
+    width: 100%;
+    font-weight: bolder;
+    font-size: larger;
+    cursor: pointer;
+}
+
+.p1 {
+    align-items: center;
+    margin-top: 2px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+/*Seccion contenido general*/
+.rr-content {
+    margin: 0;
+    background-color: white;
+    flex-grow: 1;
+    padding: 0px;
+    border-top: 3px solid #771d4b;
+    overflow-y: auto;
+    /* Permite desplazamiento si el contenido excede la pantalla */
+    width: calc(100% - 200px);
+    /* Ocupa el ancho restante sin la barra lateral */
+}
+
+.rr-content h2 {
+    text-align: left;
+    color: #771d4b;
+    font-size: 1.5em;
+    margin-top: 10px;
+    margin-bottom:  10px;
+}
+
+.rr-content h3 {
+    background: white;
+    margin-left: 0;
+    padding-left: 3%;
+    border-top: 2px solid #771d4b;
+    border-bottom: 2px solid #771d4b;
+    color: #4B125F;
+}
+
+.rr-organization-section,
+.rr-organizations-section {
+    margin-top: 10px;
+}
+
+.rr-organization {
+    text-align: center;
+}
+
+.rr-codigo{
+    margin-left: -5%;
+}
+.rr-version {
+    margin-left: 40%;
+}
+.rr-cod-vers{
+    margin-top: 2px;
+    margin-bottom: -1px;
+    display: flex;
+    align-content: center;
+}
+.inputBloq-field{
+    background-color: #E4D2DB;
+    text-align: center;
+    color: black;
+    
+    
+    border-radius: 5px;
+}
+.fiel-cod{
+    margin-left: 100px;
+    margin-right: 0px;
+}
+
+.fiel-vers{
+    margin-left: 80px;
+}
+
+/*comentario*/
+.input-text{
+    margin-top: 15px;
+    margin-left: 100px;    
+    
+}
+
+.input-fieldtext {
+    resize: auto;
+    width: 87%;
+    border: 2px solid #da99b7;
+    border-radius: 4px;
+}
+
+.rr-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 775px;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #7a1a5e;
+}
+
+
+.codigo-box {
+    display: flex;
+    align-items: center;
+    border: 2px solid #a05c8d;
+    border-radius: 10px;
+    padding: 5px 10px;
+    
+    gap: 10px;
+    max-width: 200px;
+    margin: auto;
+  }
+  
+  .categoria,
+  .serie {
+    position: relative;
+  }
+  
+  .codigo-input {
+    border: none;
+    background-color: #d4a3c1;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    width: 50px;
+    border-radius: 5px;
+    padding: 3px;
+  }
+  
+  .codigo-input:focus {
+    outline: none;
+  }
+  
+  
+  
+  .separator {
+    font-size: 18px;
+    font-weight: bold;
+    color: #4a0d49;
+  }

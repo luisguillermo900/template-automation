@@ -1,0 +1,111 @@
+
+/* General */
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5; /* Color de fondo para toda la página */
+}
+
+/* Contenedor del Login */
+.l-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 350px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+/* Título */
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+/* Estilos del formulario */
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.User, .contraseña {
+  text-align: left;
+  font-weight: 500;
+  color: #333;
+}
+
+input[type="text"], input[type="password"] {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.3rem 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Botón de Ingresar */
+button[type="submit"] {
+  background-color: #771D4B; /* Color del botón */
+  color: #fff;
+  padding: 0.7rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button[type="submit"]:hover {
+  background-color: #7a1a5e;
+}
+
+/* Texto de Olvidaste tu contraseña */
+p {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #a0005b;
+  cursor: pointer;
+}
+.flex-container {
+  display: flex;
+  align-items: center;
+}
+.message {
+  position: relative; /* Asegura que el tooltip esté relacionado con este contenedor */
+  display: inline-block; /* Ajusta al tamaño del texto o contenido específico */
+}
+
+.tooltip-text {
+  visibility: hidden; /* Inicialmente oculto */
+  opacity: 0; /* Totalmente transparente */
+  position: absolute;
+  background-color: #c589ac;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  top: 100%; /* Coloca el tooltip justo debajo del texto */
+  left: 50%; /* Centra el tooltip horizontalmente */
+  transform: translateX(-50%);
+  white-space: normal; /* Permite que el texto ocupe varias líneas si es necesario */
+  z-index: 10;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  max-width: 200px; /* Limita el ancho del tooltip */
+  word-wrap: break-word; /* Ajusta el texto a múltiples líneas si es necesario */
+}
+
+.message:hover .tooltip-text {
+  visibility: visible; /* Muestra el tooltip al pasar el ratón */
+  opacity: 1; /* Hace el tooltip visible */
+}

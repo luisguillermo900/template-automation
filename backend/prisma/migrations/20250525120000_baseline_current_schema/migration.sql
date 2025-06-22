@@ -1,0 +1,2 @@
+-- This is an empty migration to baseline the schema
+-- These changes are already applied in the database
