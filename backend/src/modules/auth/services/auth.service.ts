@@ -38,7 +38,6 @@ export class AuthService {
   }
 
   async createAdminUser() {
-    // Verificar si el admin ya existe
     const existingAdmin = await this.repository.findByUsername('admin');
 
     if (existingAdmin) {
@@ -46,15 +45,19 @@ export class AuthService {
       return existingAdmin;
     }
 
-    // Si llegamos aquí, significa que el admin no existe.
-    // Esto no debería ocurrir según tu comentario de que 
-    // ya tienes un único usuario, pero por completitud:
-    console.log('No se encontró el usuario admin. Esto no debería ocurrir.');
+    console.log('Creando usuario admin por defecto...');
 
-    // Puedes opcionalmente lanzar un error o devolver null
-    return existingAdmin;
+    const hashedPassword = await bcrypt.hash('admin123', 10);
+
+    const adminUser = await this.repository.createUser({
+      username: 'admin',
+      password: hashedPassword,
+      role: 'ADMIN', // Ajusta según tu sistema de roles
+    });
+
+    console.log('Usuario administrador inicializado.');
+    return adminUser;
   }
-}
 
 // Exportar instancia singleton del servicio
 export const authService = new AuthService();
