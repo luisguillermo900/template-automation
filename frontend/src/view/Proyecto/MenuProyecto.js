@@ -141,7 +141,7 @@ const MenuProyecto = () => {
                 </aside>
 
                 <main className="main-content">
-                    <h2>MOCAR COMPANY - SISTEMA DE INVENTARIO</h2>
+                    <h2>{organizacion.name || "Organización"} - {proyecto.name || "Proyecto"}  ({proyecto.code || "Proyecto"})</h2>
                     <section className="destacados-section">
                         <h3>Destacados</h3>
                         <div class="boton-container">

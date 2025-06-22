@@ -223,7 +223,8 @@ const exportToPDF = async () => {
         </aside>
 
         <main className="lista-content">
-          <h2>Proyectos de la Organización {orgcod}</h2>
+          <h2>{nombreOrganizacion} ({orgcod})</h2>
+          <h2 style={{ fontSize: '1.5rem' }}>Lista de Proyectos</h2>
           <section className="lista-organizations-section">
             <div className="lista-search-section-bar">
               <button

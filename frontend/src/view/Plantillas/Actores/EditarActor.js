@@ -86,6 +86,7 @@ const EditarActor = () => {
         try {
             const response = await axios.put(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/actors/${actcod}`, {
                 name,
+                roleId,
                 status,
                 comments,
                 creationDate

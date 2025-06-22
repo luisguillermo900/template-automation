@@ -23,6 +23,8 @@ const ActaAceptacion = () => {
     const [organizacion, setOrganizacion] = useState({});
     const [proyecto, setProyecto] = useState({});
 
+    const MAX_FILE_SIZE_MB = 5;
+
     // Estado para el archivo y su previsualización
 
     const [selectedFile, setSelectedFile] = useState(null);
@@ -144,35 +146,31 @@ const ActaAceptacion = () => {
     // --- Manejadores de eventos ---
 
     const handleFileChange = (e) => {
-
         const file = e.target.files[0];
 
         if (file) {
+            const fileSizeMB = file.size / (1024 * 1024);
+            if (fileSizeMB > MAX_FILE_SIZE_MB) {
+                alert(`El archivo supera el límite de ${MAX_FILE_SIZE_MB} MB. Por favor, selecciona un archivo más pequeño.`);
+                setSelectedFile(null);
+                setFilePreview(null);
+                e.target.value = null; // Limpiar el input
+                return;
+            }
 
             setSelectedFile(file);
 
-            // Generar previsualización del archivo
-
             const fileReader = new FileReader();
-
             fileReader.onloadend = () => {
-
                 setFilePreview(fileReader.result);
-
             };
-
             fileReader.readAsDataURL(file);
 
             setExistingActa(null);
-
         } else {
-
             setSelectedFile(null);
-
             setFilePreview(null);
-
         }
-
     };
 
 
@@ -318,9 +316,7 @@ const ActaAceptacion = () => {
 
                             <div className="file-preview-existing">
 
-                                <h4>Acta cargada anteriormente:</h4>
-
-                                {existingActa.fileType && existingActa.fileType.startsWith("image/") ? (
+                                {/*{existingActa.fileType && existingActa.fileType.startsWith("image/") ? (
 
                                     <img src={existingActa.fileUrl} alt="Acta Previsualización" className="file-preview-img" />
 
@@ -333,8 +329,15 @@ const ActaAceptacion = () => {
                                     <p>Vista previa no disponible para este tipo de archivo.</p>
 
                                 )}
+                                    */}
+                                {existingActa ? (
+                                    <div className="file-preview-existing">
+                                        <p>Existe un archivo cargado anteriormente {existingActa.fileName}</p>
+                                    </div>
+                                    ) : (
+                                    <p>No se subió un acta aún.</p>
+                                )}
 
-                                <p>Nombre del archivo: {existingActa.fileName}</p>
 
                             </div>
 
@@ -363,7 +366,8 @@ const ActaAceptacion = () => {
 
                         </span>
 
-                    <span>(.jpg .png .jpeg .pdf .docx)</span>
+                    <span><strong>   (.jpg .png .jpeg .pdf .docx)</strong></span>
+                    <span>Tamaño max. del archivo 5MB</span>
 
                         {filePreview && (
 
