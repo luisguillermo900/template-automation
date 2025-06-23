@@ -269,21 +269,15 @@ const NuevoAutor = () => {
                 <main className="ro-content">
                     <h2>NUEVO AUTOR</h2>
                     <section className="ro-organization">
-                        <h3>
-                            <label className="ro-codigo" >Código </label>
-                            <label className="ro-version">Version</label>
-                            <label className="ro-Fecha">Fecha</label>
+                        <h3 className="ne-label-container">
+                            <label className="ne-label">Código </label>
+                            <label className="ne-label">Version</label>
+                            <label className="ne-label">Fecha</label>
                         </h3>
-                        <div className="ro-cod-vers">
-                            <div className="ro-fiel-cod">
-                                <input disabled type="text" className="inputBloq-field" value={codigo} readOnly size="45" />
-                            </div>
-                            <div className="ro-fiel-vers">
-                                <input disabled type="text" className="inputBloq-field" value={version} readOnly size="45" />
-                            </div>
-                            <div className="ro-fiel-fecha">
-                                <input disabled type="text" className="inputBloq-field" value={creationDate} readOnly size="45" />
-                            </div>
+                        <div className="ne-input-container">
+                            <input disabled type="text" className="ne-input" value={codigo}  readOnly />
+                            <input disabled type="text" className="ne-input" value={version} readOnly />
+                            <input disabled type="text" className="ne-input" value={creationDate} readOnly />
                         </div>
                     </section>
 

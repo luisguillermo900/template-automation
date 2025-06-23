@@ -109,12 +109,13 @@ const NuevoRNF = () => {
         }
     });
     };
+
     const irAPlantillas = () => {
         navigate(`/organizations/${orgcod}/projects/${projcod}/plantillas`,{
-        state: {
-            proid:proid
-        }
-    });
+            state: {
+                proid:proid
+            }
+        });
     };
     const irARNF = () => {
         navigate(`/organizations/${orgcod}/projects/${projcod}/rnf`,{

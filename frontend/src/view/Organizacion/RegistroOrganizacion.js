@@ -171,21 +171,16 @@ const RegistroOrganizacion = () => {
                 <main className="ro-content">
                     <h2>NUEVA ORGANIZACIÓN</h2>
                     <section className="ro-organization">
-                        <h3>
-                            <label className="ro-codigo">Código </label>
-                            <label className="ro-version">Versión</label>
-                            <label className="ro-Fecha">Fecha</label>
+                        <h3 className="ne-label-container">
+                            <label className="ne-label">Código </label>
+                            <label className="ne-label">Version</label>
+                            <label className="ne-label">Fecha*</label>
                         </h3>
-                        <div className="ro-cod-vers">
-                            <div className="ro-fiel-cod">
-                                <input type="text" className="inputBloq-field" value={isLoading ? "Cargando..." : code} readOnly size="45" />
-                            </div>
-                            <div className="ro-fiel-vers">
-                                <input type="text" className="inputBloq-field" value={version} readOnly size="45" />
-                            </div>
-                            <div className="ro-fiel-fecha">
-                                <input type="text" className="inputBloq-field" value={creationDate} readOnly size="45" />
-                            </div>
+
+                        <div className="ne-input-container">
+                            <input disabled type="text" className="ne-input" value={isLoading ? "Cargando..." : code}  readOnly />
+                            <input disabled type="text" className="ne-input" value={version} readOnly />
+                            <input disabled type="text" className="ne-input" value={creationDate} readOnly />
                         </div>
                     </section>
 

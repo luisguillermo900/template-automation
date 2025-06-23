@@ -97,11 +97,20 @@ const RegistroRiesgo = () => {
         navigate(`/organizations/${orgcod}/projects`);
     };
     const irAMenuProyecto = () => {
-        navigate(`/projects/${projcod}/menuProyecto`);
+        navigate(`/organizations/${orgcod}/projects/${projcod}/menuProyecto`,{
+        state: {
+            proid:proid
+        }
+    });
     };
     const irAPlantillas = () => {
-        navigate(`/projects/${projcod}/plantillas`);
+        navigate(`/organizations/${orgcod}/projects/${projcod}/plantillas`,{
+            state: {
+                proid:proid
+            }
+        });
     };
+
     const irARutaAnterior = () => {
         if (from) {
             navigate(from, { state: { proid: proid } });

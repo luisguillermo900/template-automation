@@ -127,13 +127,9 @@ const RegistroProyecto = () => {
                             <label className="rp-codigo">Código </label>
                             <label className="rp-version">Versión</label>
                         </h3>
-                        <div className="rp-cod-vers">
-                            <div className="ro-fiel-vers">
-                                <input type="text" className="inputBloq-field" value={code} readOnly size="100" />
-                            </div>
-                            <div className="ro-fiel-fecha">
-                                <input type="text" className="inputBloq-field" value={version} readOnly size="100" />
-                            </div>
+                       <div className="ne-input-container">
+                            <input disabled type="text" className="ne-input" value={code}  readOnly />
+                            <input disabled type="text" className="ne-input" value={version} readOnly />
                         </div>
                     </section>
 
