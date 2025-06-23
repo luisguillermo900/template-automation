@@ -79,7 +79,7 @@ const Especificacion = () => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'fuentes.xlsx');
+            link.setAttribute('download', 'Especificaciones.xlsx');
             document.body.appendChild(link);
             link.click();
         } catch (err) {
@@ -96,7 +96,7 @@ const Especificacion = () => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'organizaciones.pdf');
+            link.setAttribute('download', 'Especificaciones.pdf');
             document.body.appendChild(link);
             link.click();
         } catch (err) {
@@ -112,7 +112,7 @@ const Especificacion = () => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'Educciones.xlsx');
+            link.setAttribute('download', 'Riesgos_Especififcaiones.xlsx');
             document.body.appendChild(link);
             link.click();
         } catch (err) {
@@ -129,7 +129,7 @@ const Especificacion = () => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'Educciones.pdf');
+            link.setAttribute('download', 'Riesgos_Especififcaciones.pdf');
             document.body.appendChild(link);
             link.click();
         } catch (err) {

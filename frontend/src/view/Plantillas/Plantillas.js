@@ -271,7 +271,7 @@ const Plantillas = () => {
                     </section>
 
                     <section className="plantillas-section">
-                        <h3>Plantillas Secuandarias</h3>
+                        <h3>Plantillas Secundarias</h3>
 
                         <div class="button-container-plantillas">
                             <div>

@@ -262,7 +262,7 @@ const NuevaEspecificacion = () => {
                                     <input
                                         type="text"
                                         className="inputnombre-field"
-                                        placeholder="Nombre de la ilación"
+                                        placeholder="Nombre de la Especificacion"
                                         value={name}
                                         onChange={(e) => {
                                             const value = e.target.value;

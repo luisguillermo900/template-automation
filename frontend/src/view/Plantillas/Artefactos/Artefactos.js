@@ -285,7 +285,7 @@ const Artefactos = () => {
                 <main className="main-content">
                     <h2>ARTEFACTOS</h2>
                     <section className="pp-section">
-                        <h3>Neumonicos de los Artefactos</h3>
+                        <h3>Nemónicos de los Artefactos</h3>
 
                         <div className="search-section-bar">
                             <button onClick={irANuevoNemonico} className="nuevo-pp-button">Nuevo Nemónico</button>
@@ -330,7 +330,7 @@ const Artefactos = () => {
                     </section>
                     
                     <section className="pp-section">
-                        <h3>Interfaces Graficas de Usuarios</h3>
+                        <h3>Interfaces Gráficas de Usuarios</h3>
                         <div className="search-section-bar">
                             <button onClick={irASubirInterfaz} className="nuevo-pp-button">Subir Interfaz</button>
                             <div className="sectionTextBuscar">
