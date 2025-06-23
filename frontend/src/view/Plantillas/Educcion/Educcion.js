@@ -280,8 +280,14 @@ const Educcion = () => {
         }
     });
     };
-    const irAEditarRiesgo = () => {
-        navigate("/editarRiesgo");
+    const irAEditarRiesgo = (id,rskcod) => {
+        navigate(`/organizations/${orgcod}/projects/${projcod}/riesgo/${rskcod}`,{
+        state: {
+            proid:proid,
+            idRisk:id,
+            from: location.pathname
+        }
+    });
     };
     const irAListaProyecto = () => {
         navigate(`/organizations/${orgcod}/projects`);
@@ -524,7 +530,7 @@ const Educcion = () => {
                                                 className="botton-crud"
                                                 onClick={(e) => {
                                                 e.stopPropagation();
-                                                irAEditarRiesgo(riesgo.id); // puedes pasar el id
+                                                irAEditarRiesgo(riesgo.id,riesgo.code); // puedes pasar el id
                                                 }}
                                             >
                                                 <FaPencilAlt style={{ color: "blue", cursor: "pointer" }} />

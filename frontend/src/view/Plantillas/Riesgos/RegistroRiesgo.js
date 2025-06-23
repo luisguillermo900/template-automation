@@ -27,6 +27,10 @@ const RegistroRiesgo = () => {
     const [code, setCode] = useState("");
 
     const [error, setError]=useState(null);
+    const [errorDescripcion, setErrorDescripcion] = useState("");
+    const [errorRegistryCode, setErrorRegistryCode] = useState("");
+    const [errorComment, setErrorComment] = useState("");   
+    const [errorEntityType, setErrorEntityType] = useState("");
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";   
     
@@ -66,6 +70,24 @@ const RegistroRiesgo = () => {
 
     const registrarRiesgo = async (e) => {
         e.preventDefault();
+       
+
+        if (!entityType) {
+            setErrorEntityType("Debe seleccionar un tipo de entidad.");
+            return;
+        }
+        if (!registryCode) {
+            setErrorRegistryCode("Este campo es obligatorio.");
+            return;
+        }
+        if (!description) {
+            setErrorDescripcion("Este campo es obligatorio.");
+            return;
+        }
+        if (!comments) {
+            setErrorComment("Este campo es obligatorio.");
+            return;
+        }
         try {
             // Realiza la solicitud POST con los datos correctos
             await axios.post(`${API_BASE_URL}/projects/${proid}/risks`, {
@@ -163,21 +185,55 @@ const RegistroRiesgo = () => {
                             <label className="ne-label">Responsble*</label>
                         </h3>
                         <div className="ne-input-container">
-                            <select
-                                className="ne-input estado-input"
-                                value={entityType}
-                                onChange={(e) => setEntityType(e.target.value)}
-                                required
-                            >
-                                {entityType === "" && <option value="">Seleccione una</option>}
-                                <option value="Educción">Educcion</option>
-                                <option value="Ilación">Ilación</option>
-                                <option value="Especificación">Especificación</option>
-                                <option value="Req. No Funcional">Req. No Funcional</option>
-                            </select>
+                            <div style={{ display: "flex", flexDirection: "column",width: "400px" }}>
+                                <select
+                                    className="ne-input estado-input"
+                                    value={entityType}
+                                    onChange={(e) => {
+                                    setEntityType(e.target.value);
+                                    if (e.target.value) setErrorEntityType(""); // Limpia error si selecciona algo
+                                    }}
+                                    onBlur={() => {
+                                    if (!entityType) setErrorEntityType("Debe seleccionar un tipo de entidad.");
+                                    }}
+                                    required
+                                >
+                                    <option value="">Seleccione una</option>
+                                    <option value="Educción">Educción</option>
+                                    <option value="Ilación">Ilación</option>
+                                    <option value="Especificación">Especificación</option>
+                                    <option value="Req. No Funcional">Req. No Funcional</option>
+                                </select>
+                                {errorEntityType && <p style={{ color: "red", margin: 0 }}>{errorEntityType}</p>}
+                                </div>
                             <span className="message">
-                            <input type="text" className="input-text" value={registryCode}
-                                onChange={(e) => setRegistryCode(e.target.value)} size="80"/>
+                            <input
+                                        type="text"
+                                        className="inputnombre-field"
+                                        
+                                        value={registryCode}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s().,_\-&\/]*$/;
+
+                                            if (permitido.test(value) && value.length <= 50) {
+                                                setRegistryCode(value);
+                                                setErrorRegistryCode(""); // limpiar el error si todo está bien
+                                            } else {
+                                                setErrorRegistryCode("No se permiten caracteres especiales.");
+                                                // No actualiza el input → no se muestra el carácter inválido
+                                            }
+                                        }}
+                                        onBlur={() => {
+                                            if (!registryCode.trim()) {
+                                                setErrorRegistryCode("Este campo es obligatorio.");
+                                            }
+                                        }}
+                                        maxLength={50}
+                                        size="40"
+                                    />
+                                    {errorRegistryCode && (
+                                        <p style={{ color: 'red', margin: 0 }}>{errorRegistryCode}</p>)}
                                 <span className="tooltip-text">Ingresar el código de registro de entidad a la que se hace referencia. Ej. EDU-001, ILA-001, ESP-001, RNF-0001</span>
                             </span>
                             <input disabled type="text" className="ne-input" value="AUT-0000" readOnly />
@@ -187,10 +243,36 @@ const RegistroRiesgo = () => {
                             <div className="fiel-cod">
                                 <h4>RIESGO IDENTIFICADO*</h4>
                             </div>
-                            <div className="fiel-vers">
-                            <textarea className="input-fieldtext" rows="3" value={description}
-                                onChange={(e) => setDescription(e.target.value)}placeholder="Descripción del riesgo identificado."></textarea>
-                            </div>
+                            <span className="message">
+                                <input
+                                        type="text"
+                                        className="inputnombre-field"
+                                        placeholder="Descripción del riesgo identificado"
+                                        value={description}
+                                        onChange={(e) => {
+                                            const value = e.target.value;
+                                            const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s().,_\-&\/]*$/;
+
+                                            if (permitido.test(value) && value.length <= 50) {
+                                                setDescription(value);
+                                                setErrorDescripcion(""); // limpiar el error si todo está bien
+                                            } else {
+                                                setErrorDescripcion("No se permiten caracteres especiales.");
+                                                // No actualiza el input → no se muestra el carácter inválido
+                                            }
+                                        }}
+                                        onBlur={() => {
+                                            if (!description.trim()) {
+                                                setErrorDescripcion("Este campo es obligatorio.");
+                                            }
+                                        }}
+                                        maxLength={50}
+                                        size="100"
+                                    />
+                                    {errorDescripcion && (
+                                        <p style={{ color: 'red', margin: 0 }}>{errorDescripcion}</p>)}
+                                <span className="tooltip-text">Ingresar la descripción de riesgo encontrado.</span>
+                             </span>
                         </div>
                     </section>
 
@@ -273,17 +355,39 @@ const RegistroRiesgo = () => {
                             </select>
 
                         </div>
-                            <div className="ne-cod-vers">
-                                <div className="fiel-cod">
-                                    <h4>PLAN MITIGACIÓN*</h4>
-                                </div>
-                                <div className="fiel-vers">
-                                <textarea className="input-fieldtext"  value={comments}
-                                onChange={(e) => setComments(e.target.value)}rows="3" placeholder="Plan de actividades para resolver el asunto o problema pendiente."></textarea>
-                                </div>
-                            </div>
+                        </section>
+                        <section className="ne-organizations-section">
+                            <h3>Plan Mitigación</h3>
+                            <div className="input-text">
+                            <textarea
+                                className="input-fieldtext"
+                                rows="3"
+                                value={comments}
+                                placeholder="Añadir plan de mitigación"
+                                maxLength={300}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s.,;:()¿?!¡"'\-]*$/;
 
-                            <div className="ne-buttons">
+                                    // Validar: solo permitir si cumple el patrón
+                                    if (permitido.test(value)) {
+                                        setComments(value);
+                                        setErrorComment("");
+                                    } else {
+                                        setErrorComment("No se permiten caracteres especialeS.");
+                                    }
+                                }}
+                                onBlur={() => {
+                                    if (!comments.trim()) {
+                                    setErrorComment("Este campo es obligatorio.");
+                                    }
+                                }}
+                            ></textarea>
+
+                            {errorComment && <p style={{ color: 'red', margin: 0 }}>{errorComment}</p>}
+                        </div>
+
+                        <div className="ne-buttons">
                             <button onClick={irARutaAnterior} className="ne-button" size="50">Cancelar</button>
                             <button onClick={registrarRiesgo} className="ne-button" size="50">Guardar Riesgo</button>
                         </div>

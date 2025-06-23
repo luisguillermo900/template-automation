@@ -228,8 +228,14 @@ const Especificacion = () => {
         }
     });
     };
-    const irAEditarRiesgo = () => {
-        navigate("/editarRiesgo");
+    const irAEditarRiesgo = (id,rskcod) => {
+        navigate(`/organizations/${orgcod}/projects/${projcod}/riesgo/${rskcod}`,{
+        state: {
+            proid:proid,
+            idRisk:id,
+            from: location.pathname
+        }
+    });
     };
     const irAListaProyecto = () => {
         navigate(`/organizations/${orgcod}/projects`);
@@ -362,7 +368,7 @@ const abrirPopupEsp = (code) => {
                 </aside>
 
                 <main className="main-content">
-                    <h2>ESPECIFICACIÓN</h2>
+                    <h2>{educod} - {ilacod} - ESPECIFICACIÓN</h2>
                     <section className="pp-section">
                         <h3>Gestión de Especificación</h3>
 
@@ -511,7 +517,7 @@ const abrirPopupEsp = (code) => {
                                                 className="botton-crud"
                                                 onClick={(e) => {
                                                 e.stopPropagation();
-                                                irAEditarRiesgo(riesgo.id); // puedes pasar el id
+                                                irAEditarRiesgo(riesgo.id,riesgo.code); // puedes pasar el id
                                                 }}
                                             >
                                                 <FaPencilAlt style={{ color: "blue", cursor: "pointer" }} />

@@ -74,6 +74,22 @@ const EditarEduccion = () => {
 
      const handleEdit = async (e) => {
         e.preventDefault();
+        if (!name) {
+            setErrorName("El nombre es obligatorio.");
+            return;
+        }
+        if (!description) {
+            setErrorDescription("La descripción es obligatoria");
+            return;
+        }
+        if (!importance) {
+            setErrorImportance("Debe seleccionar una importancia.");
+            return;
+        }
+        if (!status) {
+            setErrorStatus("Debe seleccionar un estado");
+            return;
+        }
         
         try {
             const response = await axios.put(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/educciones/${educod}`, {
@@ -292,12 +308,12 @@ const EditarEduccion = () => {
 
                     <section className="ne-organization">
                         <h3 className="ne-label-container">
-                            <label className="ne-label">Actor*</label>
                             <label className="ne-label">Autor de plantilla*</label>
-                            <label className="ne-label">Fuente</label>
-                            <label className="ne-label">Experto</label>
+                            <label className="ne-label">Importancia</label>
+                            <label className="ne-label">Estado</label>
                         </h3>
                         <div className="ne-input-container">
+                            {/*}
                             <div className="custom-select-dropdown">
                                 <div className="dropdown-toggle" onClick={() => toggleDropdown("actors")}>
                                     <span>
@@ -374,17 +390,10 @@ const EditarEduccion = () => {
                                     </div>
                                 )}
                             </div>
-                        </div>
-                    </section>
+                            */}
+                            <input disabled type="text" className="ne-input" value="AUT-0000" readOnly />
 
-                    <section className="ne-organization">
-                        <h3 className="ne-label-container">
-                            <label className="ne-label">Importancia*</label>
-                            <label className="ne-label">Estado*</label>
-                        </h3>
-                        <div className="ne-input-container" style={{ display: 'flex', gap: '20px' }}>
-
-                                {/* Select de Importancia */}
+                            {/* Select de Importancia */}
                                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                                     <select
                                     className="ne-input estado-input"
@@ -435,8 +444,7 @@ const EditarEduccion = () => {
                                     <p style={{ color: "red", margin: 0 }}>{errorStatus}</p>
                                     )}
                                 </div>
-
-                                </div>
+                        </div>
                     </section>
 
                     <section className="ne-organizations-section">

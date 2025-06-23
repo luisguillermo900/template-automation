@@ -60,7 +60,7 @@ const EditarEspecificacion = () => {
     };
     // Datos controlados por el usuario
     //const [code, setCodigoEspecificacion] = useState("");
-    const [creationDate, setFecha] = useState("");
+    const [creationDate, setFechaCreacion] = useState("");
     const [version, setVersion] = useState("");
     const [name, setNombre] = useState("");
     const [status, setEstado] = useState("");
@@ -86,6 +86,9 @@ const EditarEspecificacion = () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/educciones/${educod}/ilaciones/${ilacod}/specifications/${specod}`);
             const data = response.data;
+            const rawDate = new Date(data.creationDate);
+            const formattedDate = `${rawDate.getDate()}/${rawDate.getMonth() + 1}/${rawDate.getFullYear()}`;
+            setFechaCreacion(formattedDate);
             setNombre(data.name);
             setEstado(data.status);
             setVersion(data.version);
@@ -93,7 +96,6 @@ const EditarEspecificacion = () => {
             setProcedure(data.procedure);
             setPostcondicion(data.postcondition);
             setComentario(data.comment);
-            setFecha(data.creationDate);
             setImporancia(data.importance);
         } catch (err) {
             setError("Error al obtener los datos de la fuente: " + err.message);
@@ -285,16 +287,10 @@ const EditarEspecificacion = () => {
                             <label className="ne-label">Version*</label>
                             <label className="ne-label">Fecha*</label>
                         </h3>
-                        <div className="ro-cod-vers">
-                            <div className="ro-fiel-cod">
-                                <input type="text" className="inputBloq-field" value={specod} readOnly size="30" />
-                            </div>
-                            <div className="ro-fiel-vers">
-                                <input type="text" className="inputBloq-field" value={version} readOnly size="30" />
-                            </div>
-                            <div className="ro-fiel-fecha">
-                                <input type="text" className="inputBloq-field" value={creationDate} readOnly size="30" />
-                            </div>
+                        <div className="ne-input-container">
+                            <input disabled type="text" className="ne-input" value={specod} readOnly />
+                            <input disabled type="text" className="ne-input" value={version} readOnly />
+                            <input disabled type="text" className="ne-input" value={creationDate} readOnly />
                         </div>
 
                         <div className="ne-cod-vers">
@@ -426,14 +422,14 @@ const EditarEspecificacion = () => {
 
                     <section className="ne-organization">
                         <h3 className="ne-label-container">
+                            <label className="ne-label">Código de educción*</label>
                             <label className="ne-label">Código de ilación*</label>
                             <label className="ne-label">Estado*</label>
                             <label className="ne-label">Importancia*</label>
                         </h3>
                         <div className="ne-input-container">
-                            <div className="ro-fiel-cod">
-                                <input type="text" className="inputBloq-field" value={ilacod} readOnly size="30" />
-                            </div>
+                            <input disabled type="text" className="ne-input" value={educod} readOnly />
+                            <input disabled type="text" className="ne-input" value={ilacod} readOnly />
 
                             <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                                 <select

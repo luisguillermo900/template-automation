@@ -297,12 +297,63 @@ const EditarIlacion = () => {
 
                     <section className="ne-organization">
                         <h3 className="ne-label-container">
-                            <label className="ne-label">Actor*</label>
-                            <label className="ne-label">Autor de plantilla*</label>
-                            <label className="ne-label">Fuente</label>
-                            <label className="ne-label">Experto</label>
+                            <label className="ne-label">Código de educción</label>
+                            <label className="ne-label">Importancia</label>
+                            <label className="ne-label">Estado</label>
                         </h3>
                         <div className="ne-input-container">
+                            <input disabled type="text" className="ne-input" value={educod} readOnly />
+                            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                    <select
+                                    className="ne-input estado-input"
+                                    value={importance}
+                                    onChange={(e) => {
+                                        setImportance(e.target.value);
+                                        setErrorImportance(""); // limpiar error al seleccionar
+                                    }}
+                                    onBlur={() => {
+                                        if (!importance) {
+                                        setErrorImportance("Debe seleccionar una importancia.");
+                                        }
+                                    }}
+                                    required
+                                    >
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Baja">Baja</option>
+                                    <option value="Media">Media</option>
+                                    <option value="Alta">Alta</option>
+                                    </select>
+                                    {errorImportance && (
+                                    <p style={{ color: "red", margin: 0 }}>{errorImportance}</p>
+                                    )}
+                                </div>
+
+                                {/* Select de Estado */}
+                                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                                    <select
+                                    className="ne-input estado-input"
+                                    value={status}
+                                    onChange={(e) => {
+                                        setStatus(e.target.value);
+                                        setErrorStatus(""); // limpiar error al seleccionar
+                                    }}
+                                    onBlur={() => {
+                                        if (!status) {
+                                        setErrorStatus("Debe seleccionar un estado.");
+                                        }
+                                    }}
+                                    required
+                                    >
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="Por empezar">Por empezar</option>
+                                    <option value="En progreso">En progreso</option>
+                                    <option value="Finalizado">Finalizado</option>
+                                    </select>
+                                    {errorStatus && (
+                                    <p style={{ color: "red", margin: 0 }}>{errorStatus}</p>
+                                    )}
+                                </div>
+                            {/*
                             <div className="custom-select-dropdown">
                                 <div className="dropdown-toggle" onClick={() => toggleDropdown("actors")}>
                                     <span>
@@ -378,7 +429,7 @@ const EditarIlacion = () => {
                                         ))}
                                     </div>
                                 )}
-                            </div>
+                            </div>*/}
                         </div>
                     </section>
 
@@ -414,58 +465,6 @@ const EditarIlacion = () => {
                                     </div>
                                 )}
                             </div>*/}
-
-                                {/* Select de Importancia */}
-                                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                    <select
-                                    className="ne-input estado-input"
-                                    value={importance}
-                                    onChange={(e) => {
-                                        setImportance(e.target.value);
-                                        setErrorImportance(""); // limpiar error al seleccionar
-                                    }}
-                                    onBlur={() => {
-                                        if (!importance) {
-                                        setErrorImportance("Debe seleccionar una importancia.");
-                                        }
-                                    }}
-                                    required
-                                    >
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Baja">Baja</option>
-                                    <option value="Media">Media</option>
-                                    <option value="Alta">Alta</option>
-                                    </select>
-                                    {errorImportance && (
-                                    <p style={{ color: "red", margin: 0 }}>{errorImportance}</p>
-                                    )}
-                                </div>
-
-                                {/* Select de Estado */}
-                                <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                                    <select
-                                    className="ne-input estado-input"
-                                    value={status}
-                                    onChange={(e) => {
-                                        setStatus(e.target.value);
-                                        setErrorStatus(""); // limpiar error al seleccionar
-                                    }}
-                                    onBlur={() => {
-                                        if (!status) {
-                                        setErrorStatus("Debe seleccionar un estado.");
-                                        }
-                                    }}
-                                    required
-                                    >
-                                    <option value="">Seleccione una opción</option>
-                                    <option value="Por empezar">Por empezar</option>
-                                    <option value="En progreso">En progreso</option>
-                                    <option value="Finalizado">Finalizado</option>
-                                    </select>
-                                    {errorStatus && (
-                                    <p style={{ color: "red", margin: 0 }}>{errorStatus}</p>
-                                    )}
-                                </div>
 
                                 </div>
                         <div className="ne-cod-vers">

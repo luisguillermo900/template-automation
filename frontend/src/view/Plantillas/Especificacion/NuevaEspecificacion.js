@@ -382,14 +382,14 @@ const NuevaEspecificacion = () => {
 
                     <section className="ne-organization">
                         <h3 className="ne-label-container">
+                            <label className="ne-label">Código de educción*</label>
                             <label className="ne-label">Código de ilación*</label>
                             <label className="ne-label">Estado*</label>
                             <label className="ne-label">Importancia*</label>
                         </h3>
                         <div className="ne-input-container">
-                            <div className="ro-fiel-cod">
-                                <input type="text" className="inputBloq-field" value={ilacod} readOnly size="60" />
-                            </div>
+                            <input disabled type="text" className="ne-input" value={educod} readOnly />
+                            <input disabled type="text" className="ne-input" value={ilacod} readOnly />
                             {/*<div className="custom-select-dropdown">
                                 <div className="dropdown-toggle" >
                                     <span>

@@ -295,13 +295,13 @@ const NuevaIlacion = () => {
 
                     <section className="ne-organization">
                         <h3 className="ne-label-container">
-                            <label className="ne-label">Autor de plantilla*</label>
+                            <label className="ne-label">Código de educción</label>
                             <label className="ne-label">Importancia</label>
                             <label className="ne-label">Estado</label>
                         </h3>
                         <div className="ne-input-container">
                             
-                            <input disabled type="text" className="ne-input" value="AUT-0000" readOnly />
+                            <input disabled type="text" className="ne-input" value={educod} readOnly />
                             {/* Select de Importancia */}
                                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                                     <select
