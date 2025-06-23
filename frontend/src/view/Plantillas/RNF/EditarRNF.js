@@ -28,6 +28,7 @@ const EditarRNF = () => {
     const [errorImportance, setErrorImportance] = useState("");
     const [errorQualityAttribute, setErrorQualityAttribute] = useState("");     
     const [errorComment, setErrorComment] = useState("");   
+    const [errorStatus, setErrorStatus] = useState("");
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
 
@@ -86,6 +87,10 @@ const EditarRNF = () => {
         }
         if (!importance) {
             setErrorImportance("Debe seleccionar una opción.");
+            return;
+        }
+        if (!status) {
+            setErrorStatus("Debe seleccionar una opción.");
             return;
         }
         
@@ -442,13 +447,22 @@ const EditarRNF = () => {
                                     className="ne-input estado-input"
                                     style={{ width: '100%' }}
                                     value={status}
-                                    onChange={(e) => setStatus(e.target.value)}
+                                    onChange={(e) => {
+                                        setStatus(e.target.value);
+                                        if (e.target.value) setErrorStatus("");
+                                    }}
+                                    onBlur={() => {
+                                        if (!status) setErrorStatus("Debe seleccionar una opción.");
+                                    }}
                                     required
                                     >
                                     <option value="">Seleccione una opción</option>
                                     <option value="Activo">Activo</option>
                                     <option value="Inactivo">Inactivo</option>
                                     </select>
+                                    {errorStatus && (
+                                    <p style={{ color: 'red', margin: 0 }}>{errorStatus}</p>
+                                    )}
                                 </div>
 
                         </div>

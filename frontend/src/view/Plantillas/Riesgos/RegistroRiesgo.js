@@ -178,7 +178,8 @@ const RegistroRiesgo = () => {
                             <span className="message">
                             <input type="text" className="input-text" value={registryCode}
                                 onChange={(e) => setRegistryCode(e.target.value)} size="80"/>
-                                </span>
+                                <span className="tooltip-text">Ingresar el código de registro de entidad a la que se hace referencia. Ej. EDU-001, ILA-001, ESP-001, RNF-0001</span>
+                            </span>
                             <input disabled type="text" className="ne-input" value="AUT-0000" readOnly />
                         </div>
 

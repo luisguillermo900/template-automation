@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import '../../../styles/stylesNuevaEntrevista.css';
 import '../../../styles/styles.css';
@@ -12,6 +12,7 @@ const EditarEntrevista = () => {
     const { proid,id } = location.state || {};
     const [organizacion, setOrganizacion] = useState({});
     const [proyecto, setProyecto] = useState({});
+    const [authors, setAuthors] = useState([]);
 
     const [version, setVersion] = useState("01.00");
     const [interviewName, setInterviewName] = useState("");
@@ -22,7 +23,9 @@ const EditarEntrevista = () => {
     const [endTime, setEndTime] = useState("")
     const [observations, setObservations] = useState("");
 
-    const [authorId, setAuthorId] = useState("6a813a0f-2086-42fc-a373-5c86f05bfa08");
+    const [authorId, setAuthorId] = useState("");
+    const [authorName, setAuthorName] = useState("");
+    const [selectedCode, setSelectedCode] = useState("");
     
     const [agendaItems, setAgendaItems] = useState([""]);
     const [conclusions, setConclusions] = useState([""]);
@@ -40,44 +43,6 @@ const EditarEntrevista = () => {
     const [errorObservations, setErrorObservations]=useState("");
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";    
 
-    const fetchEntrevistaData = async () => {
-        try {
-            const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/interviews/${id}`);
-            const data = response.data;
-
-            // Formatear fecha para campo de tipo "date" (yyyy-mm-dd)
-            const interviewDate = data.interviewDate?.substring(0, 10);
-            const startTime = data.startTime?.substring(11, 16); // hh:mm
-            const endTime = data.endTime?.substring(11, 16);     // hh:mm
-
-            setInterviewName(data.interviewName || "");
-            setVersion(data.version || "01.00");
-            setInterviewDate(interviewDate || "");
-            setStartTime(startTime || "");
-            setEndTime(endTime || "");
-            setIntervieweeName(data.intervieweeName || "");
-            setIntervieweeRole(data.intervieweeRole || "");
-            setObservations(data.observations || "");
-            setAuthorId(data.authorId || "");
-
-            // Mapear descripciones de los ítems de agenda
-            const mappedAgendaItems = data.agendaItems?.map(item => item.description) || [""];
-            setAgendaItems(mappedAgendaItems);
-
-            // Mapear descripciones de las conclusiones
-            const mappedConclusions = data.conclusions?.map(item => item.description) || [""];
-            setConclusions(mappedConclusions);
-
-        } catch (err) {
-            setError("Error al obtener los datos de la entrevista: " + err.message);
-            console.error(err);
-        }
-    };
-
-    useEffect(() => {
-
-        fetchEntrevistaData();
-    }, [id]);
 
     useEffect(() => {
         const fetchDatos = async () => {
@@ -115,6 +80,75 @@ const EditarEntrevista = () => {
             setAgendaErrors(nuevosErrores);
         }
     };
+
+    //Traer autores para seleccionar 
+    const fetchAuthors = useCallback(async () => {
+        //Obtener o listar expertos de un proyecto
+        try {
+            //const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/authors`);
+            const response = await axios.get(`${API_BASE_URL}/authors`);
+            setAuthors(response.data.data || []);
+        } catch (err) {
+            setError(
+                err.response
+                    ? err.response.data.error
+                    : "Error al obtener los autores"
+            );
+        }
+    }, [API_BASE_URL]);
+
+    useEffect(() => {
+    const fetchData = async () => {
+        await fetchAuthors(); // primero carga la lista
+        await fetchEntrevistaData(); // luego carga la entrevista y asocia el autor
+    };
+    fetchData();
+    }, [fetchAuthors]);
+
+    const fetchEntrevistaData = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/interviews/${id}`);
+                const data = response.data;
+
+                // Formatear fecha para campo de tipo "date" (yyyy-mm-dd)
+                const interviewDate = data.interviewDate?.substring(0, 10);
+                const startTime = data.startTime?.substring(11, 16); // hh:mm
+                const endTime = data.endTime?.substring(11, 16);     // hh:mm
+
+                setInterviewName(data.interviewName || "");
+                setVersion(data.version || "01.00");
+                setInterviewDate(interviewDate || "");
+                setStartTime(startTime || "");
+                setEndTime(endTime || "");
+                setIntervieweeName(data.intervieweeName || "");
+                setIntervieweeRole(data.intervieweeRole || "");
+                setObservations(data.observations || "");
+                setAuthorId(data.authorId || "");
+
+                // Mapear descripciones de los ítems de agenda
+                const mappedAgendaItems = data.agendaItems?.map(item => item.description) || [""];
+                setAgendaItems(mappedAgendaItems);
+
+                // Mapear descripciones de las conclusiones
+                const mappedConclusions = data.conclusions?.map(item => item.description) || [""];
+                setConclusions(mappedConclusions);
+
+            } catch (err) {
+                setError("Error al obtener los datos de la entrevista: " + err.message);
+                console.error(err);
+            }
+    };
+
+
+    useEffect(() => {
+        if (authorId && authors.length > 0) {
+            const selectedAuthor = authors.find((a) => a.id === authorId);
+            if (selectedAuthor) {
+                setSelectedCode(selectedAuthor.code);
+                setAuthorName(selectedAuthor.firstName);
+            }
+        }
+    }, [authorId, authors]);
 
     const handleConclusionChange = (index, value) => {
         const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s.,\-()¿?!¡"']*$/;
@@ -182,6 +216,7 @@ const EditarEntrevista = () => {
         
         try {
             const response = await axios.put(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/interviews/${id}`, {
+                authorId,
                 interviewName,
                 version,
                 interviewDate,
@@ -316,21 +351,53 @@ const EditarEntrevista = () => {
 
                         <div className="rp-cod-vers">
                             <div className="fiel-cod">
-                                <h4>Código del autor</h4>
+                                <h4>Código del autor*</h4>
                             </div>
                             <div className="fiel-vers">
-                                <input disabled type="text" className="inputBloq-field" value="AUT-0001" readOnly size="100" />
+                                <select
+                                    className="inputBloq-field"
+                                    value={selectedCode}
+                                    style={{ width: "700px" }}
+                                    onChange={(e) => {
+                                        const selectedCodeValue = e.target.value;
+                                        setSelectedCode(selectedCodeValue);
+
+                                        const selectedAuthor = authors.find((a) => a.code === selectedCodeValue);
+                                        if (selectedAuthor) {
+                                            setAuthorId(selectedAuthor.id); // Guarda el ID real
+                                            setAuthorName(selectedAuthor.firstName); // Muestra el nombre
+                                        } else {
+                                            setAuthorId("");
+                                            setAuthorName("");
+                                        }
+                                    }}
+                                    required
+                                >
+                                    <option value="">Seleccione un código de autor</option>
+                                    {authors.map((author) => (
+                                        <option key={author.id} value={author.code}>
+                                            {author.code}
+                                        </option>
+                                    ))}
+                                </select>
+
                             </div>
                         </div>
 
-                        <div className="rp-cod-vers">
-                            <div className="fiel-cod">
-                                <h4>Nombre del autor</h4>
+                            <div className="rp-cod-vers">
+                                <div className="fiel-cod">
+                                    <h4>Nombre del autor</h4>
+                                </div>
+                                <div className="fiel-vers">
+                                    <input
+                                    type="text"
+                                    className="inputBloq-field"
+                                    value={authorName}
+                                    readOnly
+                                    size="100"
+                                    />
+                                </div>
                             </div>
-                            <div className="fiel-vers">
-                                <input disabled type="text" className="inputBloq-field" value="Administrador" readOnly size="100" />
-                            </div>
-                        </div>
                     </section>
 
                     <section className="rp-organization-section">

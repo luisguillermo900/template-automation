@@ -308,99 +308,14 @@ const NuevaEduccion = () => {
 
                     <section className="ne-organization">
                         <h3 className="ne-label-container">
-                            <label className="ne-label">Actor*</label>
                             <label className="ne-label">Autor de plantilla*</label>
-                            <label className="ne-label">Fuente</label>
-                            <label className="ne-label">Experto</label>
+                            <label className="ne-label">Importancia</label>
+                            <label className="ne-label">Estado</label>
                         </h3>
                         <div className="ne-input-container">
-                            <div className="custom-select-dropdown">
-                                <div className="dropdown-toggle" onClick={() => toggleDropdown("actors")}>
-                                    <span>
-                                        {selectedItems.length > 0
-                                            ? selectedItems.join(", ")
-                                            : "Seleccione una o más opciones"}
-                                    </span>
-                                    <span className="dropdown-arrow">▼</span>
-                                </div>
-                                {dropdownOpen.actors && (
-                                    <div className="dropdown-menu">
-                                        {actors.map((option, index) => (
-                                            <label key={index} className="dropdown-item">
-                                                <input
-                                                    type="checkbox"
-                                                    value={option}
-                                                    checked={selectedItems.includes(option)}
-                                                    onChange={(e) => handleCheckboxChange(e.target.value)}
-                                                />
-                                                {option}
-                                            </label>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
+                            
                             <input disabled type="text" className="ne-input" value="AUT-0000" readOnly />
-                            <div className="custom-select-dropdown">
-                                <div className="dropdown-toggle" onClick={() => toggleDropdown("fuentes")}>
-                                    <span>
-                                        {selectedItems.length > 0
-                                            ? selectedItems.join(", ")
-                                            : "Seleccione una o más opciones"}
-                                    </span>
-                                    <span className="dropdown-arrow">▼</span>
-                                </div>
-                                {dropdownOpen.fuentes && (
-                                    <div className="dropdown-menu">
-                                        {fuentes.map((option, index) => (
-                                            <label key={index} className="dropdown-item">
-                                                <input
-                                                    type="checkbox"
-                                                    value={option}
-                                                    checked={selectedItems.includes(option)}
-                                                    onChange={(e) => handleCheckboxChange(e.target.value)}
-                                                />
-                                                {option}
-                                            </label>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                            <div className="custom-select-dropdown">
-                                <div className="dropdown-toggle" onClick={() => toggleDropdown("expertos")}>
-                                    <span>
-                                        {selectedItems.length > 0
-                                            ? selectedItems.join(", ")
-                                            : "Seleccione una o más opciones"}
-                                    </span>
-                                    <span className="dropdown-arrow">▼</span>
-                                </div>
-                                {dropdownOpen.expertos && (
-                                    <div className="dropdown-menu">
-                                        {expertos.map((option, index) => (
-                                            <label key={index} className="dropdown-item">
-                                                <input
-                                                    type="checkbox"
-                                                    value={option}
-                                                    checked={selectedItems.includes(option)}
-                                                    onChange={(e) => handleCheckboxChange(e.target.value)}
-                                                />
-                                                {option}
-                                            </label>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="ne-organization">
-                        <h3 className="ne-label-container">
-                            <label className="ne-label">Importancia*</label>
-                            <label className="ne-label">Estado*</label>
-                        </h3>
-                        <div className="ne-input-container" style={{ display: 'flex', gap: '20px' }}>
-
-                                {/* Select de Importancia */}
+                            {/* Select de Importancia */}
                                 <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                                     <select
                                     className="ne-input estado-input"
@@ -451,8 +366,8 @@ const NuevaEduccion = () => {
                                     <p style={{ color: "red", margin: 0 }}>{errorStatus}</p>
                                     )}
                                 </div>
-
-                                </div>
+                            
+                        </div>
                     </section>
 
                     <section className="ne-organizations-section">

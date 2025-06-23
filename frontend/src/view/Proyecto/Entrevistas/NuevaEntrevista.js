@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState, useCallback } from "react"; 
 import axios from "axios"; 
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import '../../../styles/stylesNuevaEntrevista.css';
@@ -11,6 +11,7 @@ const NuevaEntrevista = () => {
     const { proid } = location.state || {};
     const [organizacion, setOrganizacion] = useState({});
     const [proyecto, setProyecto] = useState({});
+    const [authors, setAuthors] = useState([]);
 
     const [version, setVersion] = useState("01.00");
     const [interviewName, setInterviewName] = useState("");
@@ -20,7 +21,9 @@ const NuevaEntrevista = () => {
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
     const [observations, setObservations] = useState("");
-    const [authorId, setAuthorId] = useState("1b433257-cbad-4676-9c49-c097e85401fe");
+    const [authorId, setAuthorId] = useState("");
+    const [authorName, setAuthorName] = useState("");
+    const [selectedCode, setSelectedCode] = useState("");
     
     const [agendaItems, setAgendaItems] = useState([""]);
     const [conclusions, setConclusions] = useState([""]);
@@ -95,6 +98,29 @@ const NuevaEntrevista = () => {
             setError("No se pudo registrar al experto. Inténtalo de nuevo.");
         }
     };
+
+    //Traer autores para seleccionar 
+    const fetchAuthors = useCallback(async () => {
+        //Obtener o listar expertos de un proyecto
+        try {
+            //const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/authors`);
+            const response = await axios.get(`${API_BASE_URL}/authors`);
+            setAuthors(response.data.data || []);
+        } catch (err) {
+            setError(
+                err.response
+                    ? err.response.data.error
+                    : "Error al obtener los autores"
+            );
+        }
+    }, [API_BASE_URL]);
+
+    useEffect(() => {
+
+        fetchAuthors();
+
+    }, [fetchAuthors]);
+
 
     const handleAgendaChange = (index, value) => {
     const permitido = /^[a-zA-ZÁÉÍÓÚáéíóúÑñ0-9\s.,\-()¿?!¡"']*$/;
@@ -270,21 +296,52 @@ const NuevaEntrevista = () => {
 
                         <div className="rp-cod-vers">
                             <div className="fiel-cod">
-                                <h4>Código del autor</h4>
+                                <h4>Código del autor*</h4>
                             </div>
                             <div className="fiel-vers">
-                                <input disabled type="text" className="inputBloq-field" value="AUT-0000" readOnly size="100" />
-                            </div>
-                        </div>
+                                <select
+                                className="inputBloq-field"
+                                value={selectedCode}
+                                style={{ width: "700px" }}
+                                onChange={(e) => {
+                                    const selectedCodeValue = e.target.value;
+                                    setSelectedCode(selectedCodeValue);
 
-                        <div className="rp-cod-vers">
-                            <div className="fiel-cod">
-                                <h4>Nombre del autor</h4>
+                                    const selectedAuthor = authors.find((a) => a.code === selectedCodeValue);
+                                    if (selectedAuthor) {
+                                    setAuthorId(selectedAuthor.id); // Guarda el ID real
+                                    setAuthorName(selectedAuthor.firstName); // Muestra el nombre
+                                    } else {
+                                    setAuthorId("");
+                                    setAuthorName("");
+                                    }
+                                }}
+                                required
+                                >
+                                <option value="">Seleccione un código de autor</option>
+                                {authors.map((author) => (
+                                    <option key={author.id} value={author.code}>
+                                    {author.code}
+                                    </option>
+                                ))}
+                                </select>
                             </div>
-                            <div className="fiel-vers">
-                                <input disabled type="text" className="inputBloq-field" value="Administrador" readOnly size="100" />
                             </div>
-                        </div>
+
+                            <div className="rp-cod-vers">
+                                <div className="fiel-cod">
+                                    <h4>Nombre del autor</h4>
+                                </div>
+                                <div className="fiel-vers">
+                                    <input
+                                    type="text"
+                                    className="inputBloq-field"
+                                    value={authorName}
+                                    readOnly
+                                    size="100"
+                                    />
+                                </div>
+                            </div>
                     </section>
 
                     <section className="rp-organization-section">

@@ -299,7 +299,7 @@ const Artefactos = () => {
                                     value={searchTerm} 
                                     onChange={(e) => setSearchTerm(e.target.value)} 
                                 />
-                                    <span class="tooltip-text">Filtrar información por artefacto o por neumonico</span>
+                                    <span class="tooltip-text">Filtrar información por artefacto o por nemónico</span>
                                 </span>
                                 
                                 <button className="search-button" onClick={() => handleSearch('name')}>Búsqueda por Artefacto</button>

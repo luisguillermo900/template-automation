@@ -210,7 +210,7 @@ const SubirInterfaz = () => {
                                         }
                                     }}
                                     maxLength={30}
-                                    size="400"
+                                    size="40"
                                     />
                                     {errorName && (
                                     <p style={{ color: 'red', margin: 0 }}>{errorName}</p>)}

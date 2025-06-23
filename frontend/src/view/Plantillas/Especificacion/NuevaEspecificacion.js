@@ -388,7 +388,7 @@ const NuevaEspecificacion = () => {
                         </h3>
                         <div className="ne-input-container">
                             <div className="ro-fiel-cod">
-                                <input type="text" className="inputBloq-field" value={ilacod} readOnly size="30" />
+                                <input type="text" className="inputBloq-field" value={ilacod} readOnly size="60" />
                             </div>
                             {/*<div className="custom-select-dropdown">
                                 <div className="dropdown-toggle" >
