@@ -53,6 +53,7 @@ const Ilacion = () => {
         
     }, [fetchIlaciones]);
 
+    //Función para obtener datos de organizacion y proyecto
       useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -295,30 +296,36 @@ const Ilacion = () => {
     });
     };
 
+    //Abrir popup para eliminar ilación
    const abrirPopupIla = (code) => {
         setCodigoAEliminarIla(code);
         setMostrarPopupIla(true);
     };
       
+    //Cerrar popup para eliminar ilación
     const cerrarPopupIla = () => {
         setMostrarPopupIla(false);
     };
       
+    //Confirma eliminar ilación, envia código de ilación
     const confirmarEliminacionIla = () => {
         if (codigoAEliminarIla) {
             deleteIlation(codigoAEliminarIla);
         }
     };
 
+    //Abrir popup eliminar riesgo de ilación
     const abrirPopupRiesgo = (code) => {
         setCodigoAEliminarRiesgo(code);
         setMostrarPopupRiesgo(true);
     };
       
+    //Cerrar popup para eliminar riesgo de ilación
     const cerrarPopupRiesgo = () => {
         setMostrarPopupRiesgo(false);
     };
       
+    //Confirma eliminar riesgo de ilación, envía código de riesgo
     const confirmarEliminacionRiesgo = () => {
         if (codigoAEliminarRiesgo) {
             deleteRiesgos(codigoAEliminarRiesgo);

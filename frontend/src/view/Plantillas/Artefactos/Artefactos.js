@@ -31,6 +31,7 @@ const Artefactos = () => {
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+    //Función para obtener lista de nemónicos
     const fetchMnemonic = useCallback(async () => {
     //Obtener o listar expertos de un proyecto
         try {
@@ -45,6 +46,7 @@ const Artefactos = () => {
         }
     }, [API_BASE_URL]);
 
+    //Función para obtener lista de interfaces
     const fetchInterfaces = useCallback(async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/interfaces`);
@@ -66,6 +68,7 @@ const Artefactos = () => {
     
     }, [fetchMnemonic, fetchInterfaces]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -81,6 +84,7 @@ const Artefactos = () => {
         fetchDatos();
     }, [orgcod, projcod, API_BASE_URL]);
 
+    //Función para buscar por nombre y nemónico
     const handleSearch = async (searchType) => { 
     setLoading(true);
     try {
@@ -109,6 +113,7 @@ const Artefactos = () => {
         }
     };
 
+    //Función para buscar interfaz por nombre
     const handleSearchInterfaz = async (searchType) => {
     setLoading(true);
     try {
@@ -133,6 +138,7 @@ const Artefactos = () => {
         }
     };
 
+    //Función para exportar en Excel
     const exportToExcel = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/interfaces/exports/excel`, {
@@ -149,6 +155,7 @@ const Artefactos = () => {
         }
     };
 
+    //Función para exportar en pdf
     const exportToPDF = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/interfaces/exports/pdf`, {
@@ -235,16 +242,19 @@ const Artefactos = () => {
     });
     };
   
+    //Abrir popup para eliminar interfaz
     const abrirPopup = (id, code) => {
         setIdAEliminar(id);
         setCodigoAEliminar(code);
         setMostrarPopup(true);
     };
       
+    //Cerrar popup para eliminar interfaz
     const cerrarPopup = () => {
         setMostrarPopup(false);
     };
       
+    //Confirma eliminacion de interfaz, envia id
     const confirmarEliminacion = () => {
         if (idAEliminar) {
             handleDelete(idAEliminar);

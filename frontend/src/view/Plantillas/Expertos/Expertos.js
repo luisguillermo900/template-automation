@@ -98,6 +98,7 @@ const Expertos = () => {
     
   }, [fetchExpertos]);
 
+  //Función para obtener datos de organizacion y proyecto
   useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -206,15 +207,18 @@ const Expertos = () => {
         }
     };
 
+    //Abrir popup de eliminar experto
     const abrirPopup = (code) => {
         setCodigoAEliminar(code);
         setMostrarPopup(true);
     };
       
+    //Cerrar popup de eliminar experto
     const cerrarPopup = () => {
         setMostrarPopup(false);
     };
       
+    //Confirma eliminar experto, envia código de experto
     const confirmarEliminacion = () => {
         if (codigoAEliminar) {
             deleteExpert(codigoAEliminar);

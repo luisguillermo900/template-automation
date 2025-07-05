@@ -34,6 +34,7 @@ const RegistroRiesgo = () => {
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";   
     
+    //Función para obtener el siguiente código de riesgo
     useEffect(() => {
     
         const fetchNextCodigoRiesgo = async () => {
@@ -53,6 +54,7 @@ const RegistroRiesgo = () => {
         fetchNextCodigoRiesgo();
     }, [API_BASE_URL,orgcod, projcod]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -68,6 +70,7 @@ const RegistroRiesgo = () => {
         fetchDatos();
     }, [orgcod, projcod, API_BASE_URL]);
 
+    //Función para registrar un riesgo
     const registrarRiesgo = async (e) => {
         e.preventDefault();
        
@@ -133,6 +136,7 @@ const RegistroRiesgo = () => {
         });
     };
 
+    //Función para ir a la ruta anterior, envio de ruta
     const irARutaAnterior = () => {
         if (from) {
             navigate(from, { state: { proid: proid } });

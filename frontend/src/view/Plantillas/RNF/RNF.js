@@ -30,6 +30,7 @@ const RNF = () => {
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+    //Filtrar riesgos por tipo de entidad
     const riesgosFiltrados = riesgos.filter((riesgo) => riesgo.entityType === "Req. No Funcional");
 
     const fetchRnfs = useCallback(async () => {
@@ -46,6 +47,7 @@ const RNF = () => {
         }
     }, [proid,API_BASE_URL]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -61,6 +63,7 @@ const RNF = () => {
         fetchDatos();
     }, [orgcod, projcod, API_BASE_URL]);
 
+    //Función para eliminar rnf por código
     const deleteRnf = async (codigo) => {
         try {
             await axios.delete(`${API_BASE_URL}/projects/${proid}/nfrs/${codigo}`);
@@ -77,6 +80,7 @@ const RNF = () => {
         }
     };
 
+    //Función para buscar rnf por nombre
     const handleSearch = async () => {
         setLoading(true);
         try {
@@ -108,6 +112,7 @@ const RNF = () => {
     }
     }
 
+    //Función para exportar rnf en Excel
     const exportToExcel = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/projects/${proid}/nfrs/exports/excel`, {
@@ -124,6 +129,7 @@ const RNF = () => {
         }
     };
 
+    //Función para exportar rnf en Pdf
     const exportToPDF = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/projects/${proid}/nfrs/exports/pdf`, {
@@ -140,6 +146,7 @@ const RNF = () => {
         }
     };
 
+    //Función para exportar riesgo de rnf en Excel
     const exportToExcelRisk = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/projects/${proid}/risks/exports/excel`, {
@@ -156,7 +163,7 @@ const RNF = () => {
         }
     };
 
-    // Exportar a PDF
+    // Función para exportar riesgo de rnf en Pdf
     const exportToPDFRisk = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/projects/${proid}/risks/exports/pdf`, {
@@ -187,6 +194,7 @@ const RNF = () => {
         }
     }, [proid,API_BASE_URL]);
 
+    //Función para eliminar riesgo
     const deleteRiesgos = async (codigo) => {
         try {
             await axios.delete(`${API_BASE_URL}/projects/${proid}/risks/${codigo}`);
@@ -276,30 +284,36 @@ const RNF = () => {
     });
     };
   
+    //Abrir popup eliminar rnf
     const abrirPopupRnf = (code) => {
         setCodigoAEliminarRnf(code);
         setMostrarPopupRnf(true);
     };
-      
+    
+    //Cerrar popup eliminar rnf
     const cerrarPopupRnf = () => {
         setMostrarPopupRnf(false);
     };
       
+    //Confirma eliminar rnf, envia código de rnf
     const confirmarEliminacionRnf = () => {
         if (codigoAEliminarRnf) {
             deleteRnf(codigoAEliminarRnf);
         }
     };
 
+    //Abrir popup de eliminar riesgo de rnf
     const abrirPopupRiesgo = (code) => {
         setCodigoAEliminarRiesgo(code);
         setMostrarPopupRiesgo(true);
     };
       
+    //Cerrar popup de eliminar riesgo de rnf
     const cerrarPopupRiesgo = () => {
         setMostrarPopupRiesgo(false);
     };
       
+    //Confirma eliminar riesgo de rnf, envía código de riesgo
     const confirmarEliminacionRiesgo = () => {
         if (codigoAEliminarRiesgo) {
             deleteRiesgos(codigoAEliminarRiesgo);

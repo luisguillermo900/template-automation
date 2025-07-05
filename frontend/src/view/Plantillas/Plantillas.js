@@ -17,6 +17,7 @@ const Plantillas = () => {
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+    //Función para obtener lista de educciones, ilaciones y especificaciones
     useEffect(() => {
         async function fetchData() {
             try {
@@ -50,6 +51,7 @@ const Plantillas = () => {
         fetchData();
     }, [orgcod, projcod]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -65,6 +67,7 @@ const Plantillas = () => {
         fetchDatos();
     }, [orgcod, projcod, API_BASE_URL]);
 
+    //Función para exportar trazabilidad en Pdf
     const exportarPDF = () => {
         const doc = new jsPDF();
         doc.text("Trazabilidad de Requisitos", 14, 10);

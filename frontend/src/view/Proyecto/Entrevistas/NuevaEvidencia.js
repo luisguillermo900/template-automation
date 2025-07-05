@@ -26,7 +26,7 @@ const NuevaEvidencia = () => {
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
 
-
+    //Función para obtener el siguiente código de evidencia
     const obtenerSiguienteCodigo = async (interviewId) => {
         try {
             const response = await axios.get(
@@ -39,6 +39,7 @@ const NuevaEvidencia = () => {
         }
     };
 
+    //Función para cargar y visualizar archivo adjunto
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -54,6 +55,7 @@ const NuevaEvidencia = () => {
         }
     };
 
+    //Función para guardar nueva evidencia
     const handleSaveEvidencia = async (e) => {
         e.preventDefault();
 
@@ -105,6 +107,7 @@ const NuevaEvidencia = () => {
         }
     };
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

@@ -181,6 +181,7 @@ const Actores = () => {
         }
     };
 
+    //Función para obtener y cargar lista de roles
     useEffect(() => {
         const fetchRoles = async () => {
             const res = await axios.get(`${API_BASE_URL}/roles`);
@@ -189,7 +190,8 @@ const Actores = () => {
 
         fetchRoles();
     }, []);   
-    
+
+    //Obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -205,15 +207,18 @@ const Actores = () => {
         fetchDatos();
     }, [orgcod, projcod, API_BASE_URL]);
     
+    //Abrir popup para eliminar actor
     const abrirPopup = (code) => {
         setCodigoAEliminar(code);
         setMostrarPopup(true);
     };
-      
+    
+    //Cerrar popup
     const cerrarPopup = () => {
         setMostrarPopup(false);
     };
       
+    //Confirma eliminación de actor, envia id
     const confirmarEliminacion = () => {
         if (codigoAEliminar) {
             deleteActor(codigoAEliminar);

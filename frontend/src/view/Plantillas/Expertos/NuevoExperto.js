@@ -66,6 +66,7 @@ const NuevoExperto = () => {
         fetchNextCodigoExperto();
     }, [API_BASE_URL,orgcod, projcod]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

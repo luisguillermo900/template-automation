@@ -106,6 +106,7 @@ const EditarEspecificacion = () => {
         fetchSpecificationData();
     }, [specod, orgcod, educod, projcod, ilacod]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
         const fetchDatos = async () => {
             try {

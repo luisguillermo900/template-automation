@@ -169,6 +169,7 @@ const EditarAutor = () => {
             fetchAuthorData();
     }, [autid]);
 
+    //Función para obtener lista de roles
     useEffect(() => {
         const fetchRoles = async () => {
             const res = await axios.get(`${API_BASE_URL}/roles`);
@@ -178,6 +179,7 @@ const EditarAutor = () => {
         fetchRoles();
     }, []);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

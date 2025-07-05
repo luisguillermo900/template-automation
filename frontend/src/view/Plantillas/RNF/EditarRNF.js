@@ -32,6 +32,7 @@ const EditarRNF = () => {
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
 
+    //Función para obtener la información de un rnf según código
     const fetchRnfData = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/projects/${proid}/nfrs/${rnfcod}`);
@@ -56,6 +57,7 @@ const EditarRNF = () => {
             fetchRnfData();
     }, [rnfcod]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -71,6 +73,7 @@ const EditarRNF = () => {
         fetchDatos();
     }, [orgcod, projcod, API_BASE_URL]);
     
+    //Función para editar y guardar cambios
     const handleEdit = async (e) => {
         e.preventDefault();
         if (!name) {

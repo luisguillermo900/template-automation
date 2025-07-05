@@ -18,6 +18,7 @@ const NuevoNemonico = () => {
 
          const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
 
+    //Función para registrar un nemónico
     const registrarMnemonic = async (e) => {
         e.preventDefault();
         if (!name) {
@@ -45,6 +46,7 @@ const NuevoNemonico = () => {
         }
     };
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

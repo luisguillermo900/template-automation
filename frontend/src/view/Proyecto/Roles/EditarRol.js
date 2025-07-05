@@ -41,6 +41,7 @@ const EditarRol = () => {
             fetchRolData();
     }, [idRol]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

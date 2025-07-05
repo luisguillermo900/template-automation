@@ -47,6 +47,7 @@ const Autores = () => {
 
     }, [fetchAuthors]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -117,16 +118,19 @@ const Autores = () => {
         }
     };
 
+    //Abrir popup eliminar autor
     const abrirPopup = (id, code) => {
         setIdAEliminar(id);
         setCodigoAEliminar(code);
         setMostrarPopup(true);
     };
 
+    //Cerrar popup eliminar autor
     const cerrarPopup = () => {
         setMostrarPopup(false);
     };
 
+    //Confirma eliminar autor, envia id de autor
     const confirmarEliminacion = () => {
         if (idAEliminar) {
             deleteAuthor(idAEliminar);

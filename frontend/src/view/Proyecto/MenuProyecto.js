@@ -37,6 +37,7 @@ const MenuProyecto = () => {
         obtenerDatos();
     }, [ orgcod, projcod]);
 
+    //Función para descargar el catálogo de requisitos
     const descargarCatalogo = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/requirements-catalog`, {

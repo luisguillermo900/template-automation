@@ -49,6 +49,7 @@ const Fuentes = () => {
       
     }, [fetchSources]);
 
+  //Función para obtener datos de organizacion y proyecto
   useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -193,15 +194,18 @@ const currentYear = new Date().getFullYear();
     "Diciembre",
   ];
 
+  //Abrir popup de eliminar fuente
       const abrirPopup = (code) => {
         setCodigoAEliminar(code);
         setMostrarPopup(true);
     };
       
+    //Cerrar popup de eliminar fuente
     const cerrarPopup = () => {
         setMostrarPopup(false);
     };
       
+    //Confirma eliminar fuente, envia código de fuente
     const confirmarEliminacion = () => {
         if (codigoAEliminar) {
             deleteSource(codigoAEliminar);

@@ -32,6 +32,7 @@ const EditarRiesgo = () => {
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";  
 
+    //Función para obtener los datos del riesgo por código
     const fetchRiskData = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/projects/${proid}/risks/${rskcode}`);
@@ -55,6 +56,7 @@ const EditarRiesgo = () => {
     }, [rskcode]);
 
 
+    //Función para editar un riesgo
     const handleEdit = async (e) => {
         e.preventDefault();
          if (!entityType) {
@@ -94,6 +96,7 @@ const EditarRiesgo = () => {
         }
     }; 
     
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
         const fetchDatos = async () => {
             try {
@@ -132,6 +135,8 @@ const EditarRiesgo = () => {
             }
         });
     };
+
+    //Función para ir al a ruta anterior, envio de ruta
     const irARutaAnterior = () => {
         if (from) {
             navigate(from, { state: { proid: proid } });

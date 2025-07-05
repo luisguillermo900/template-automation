@@ -147,16 +147,19 @@ const MenuOrganizaciones = () => {
         }
     };
       
+    //Abrir popup para eliminar organización
     const abrirPopup = (id, code) => {
         setIdAEliminar(id);
         setCodigoAEliminar(code);
         setMostrarPopup(true);
     };
       
+    //Cerrar popup eliminar organización
     const cerrarPopup = () => {
         setMostrarPopup(false);
     };
       
+    //Confirma eliminacion de organizacion, envia id de organización
     const confirmarEliminacion = () => {
         if (idAEliminar) {
             handleDelete(idAEliminar);

@@ -182,15 +182,18 @@ const exportToPDF = async () => {
   }
 };
 
+//Abrir popup eliminar proyecto
     const abrirPopup = (code) => {
         setCodigoAEliminar(code);
         setMostrarPopup(true);
     };
       
+    //Cerrar popup eliminar proyecto
     const cerrarPopup = () => {
         setMostrarPopup(false);
     };
       
+    //Confirma eliminar proyecto, envia codigo de proyecto
     const confirmarEliminacion = () => {
         if (codigoAEliminar) {
             deleteProject(codigoAEliminar);

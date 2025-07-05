@@ -57,6 +57,7 @@ const EditarEduccion = () => {
         fetchEductionData();
     }, [educod]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
         const fetchDatos = async () => {
             try {

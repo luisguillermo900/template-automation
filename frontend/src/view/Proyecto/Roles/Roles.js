@@ -47,6 +47,7 @@ const Roles = () => {
         
     }, [fetchRoles]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -168,16 +169,19 @@ const Roles = () => {
         navigate(`/organizations/${orgcod}/projects`);
     };
   
+    //Abrir popup para eliminar rol
     const abrirPopup = (id, name) => {
         setIdAEliminar(id);
         setRolAEliminar(name);
         setMostrarPopup(true);
     };
       
+    //Cerrar popup para eliminar rol
     const cerrarPopup = () => {
         setMostrarPopup(false);
     };
       
+    //Confirma eliminar rol, envia id de rol
     const confirmarEliminacion = () => {
         if (idAEliminar) {
             deleteRol(idAEliminar);

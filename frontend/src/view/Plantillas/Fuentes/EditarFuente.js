@@ -39,13 +39,15 @@ const EditarFuente = () => {
             setError("Error al obtener los datos de la fuente: " + err.message);
         }
     };
+    
     useEffect(() => {
-            if (hasRun.current) return; // 🚫 Evita ejecutar nuevamente
+            if (hasRun.current) return; // Evita ejecutar nuevamente
             hasRun.current = true;
             console.log("Cargando fuente con código:", fuecod);
             fetchSourceData();
         }, [fuecod]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -61,6 +63,7 @@ const EditarFuente = () => {
         fetchDatos();
   }, [orgcod, projcod, API_BASE_URL]);
 
+  //Función para guardar los nuevos datos al editar una fuente
     const handleEdit = async (e) => {
         e.preventDefault();
         if (!name) {

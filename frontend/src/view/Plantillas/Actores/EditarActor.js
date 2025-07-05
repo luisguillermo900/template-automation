@@ -18,7 +18,8 @@ const EditarActor = () => {
     const { projcod, orgcod, actcod } = useParams();
     const [code, setCodigoActor] = useState("");
     const [version, setVersionActor] = useState("00.01");
-    const [creationDate, setFechaCreacion] = useState("");
+    const [creationDate, setFechaCreacion] = useState(
+            new Date().toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }));
     // Datos controlados por el usuario
     const [name, setNombre] = useState("");
     const [status, setEstado] = useState("");
@@ -32,14 +33,6 @@ const EditarActor = () => {
     const [error, setError] = useState(null);
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
 
-    useEffect(() => {
-        const fetchRoles = async () => {
-            const res = await axios.get(`${API_BASE_URL}/roles`);
-            setRoles(res.data.data || []); // Asegúrate de ajustar según cómo devuelves los datos
-        };
-
-        fetchRoles();
-    }, []);
     
      // GET: traer los datos de la fuente
     const fetchActorData = async () => {
@@ -59,12 +52,13 @@ const EditarActor = () => {
         }
     };
     useEffect(() => {
-            if (hasRun.current) return; // 🚫 Evita ejecutar nuevamente
+            if (hasRun.current) return; //  Evita ejecutar nuevamente
             hasRun.current = true;
-            console.log("Cargando fuente con código:", actcod);
+            console.log("Cargando actor con código:", actcod);
             fetchActorData();
         }, [actcod]);
 
+    //Obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -80,6 +74,7 @@ const EditarActor = () => {
         fetchDatos();
     }, [orgcod, projcod, API_BASE_URL]);
 
+    //Guardar nuevos datos al editar
     const handleEdit = async (e) => {
         e.preventDefault();
         console.log("Guardando fuente con código:", actcod);
@@ -128,8 +123,6 @@ const EditarActor = () => {
         }
     });
     };
-
-    // Función para registrar la organización
 
 
     return (

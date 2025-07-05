@@ -46,6 +46,7 @@ const Entrevistas = () => {
         }
     }, [projcod,orgcod,API_BASE_URL]);
 
+    //Función para obtener lista de evidencias
     const fetchEvidencias = useCallback(async () => {
     try {
         const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/evidences`);
@@ -66,6 +67,7 @@ const Entrevistas = () => {
     
     }, [fetchEentrevistas, fetchEvidencias]);
     
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -81,6 +83,7 @@ const Entrevistas = () => {
         fetchDatos();
     }, [orgcod, projcod, API_BASE_URL]);
 
+    //Función para eliminar entrevista por id
     const deleteEntrevistas = async (id) => {
         try {
             await axios.delete(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/interviews/${id}`);
@@ -97,7 +100,7 @@ const Entrevistas = () => {
         }
     };
 
-
+    //Función para buscar entrevista por nombre
     const handleSearch = async () => {
         setLoading(true);
         try {
@@ -123,6 +126,7 @@ const Entrevistas = () => {
         }
     };
 
+    //Función para buscar evidencia por nombre
     const handleSearchEvidence = () => {
         if (!searchEvidence) {
             fetchEvidencias(); // recarga todas 
@@ -135,6 +139,7 @@ const Entrevistas = () => {
         setEvidencias(filtered);
     };
 
+    //Función para exportar entrevistas en Excel
     const exportToExcel = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/interviews/exports/excel`, {
@@ -151,7 +156,7 @@ const Entrevistas = () => {
         }
     };
 
-    // Exportar a PDF
+    // Función para exportar entrevistas en PDF
     const exportToPDF = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}/projects/${projcod}/interviews/exports/pdf`, {
@@ -226,16 +231,19 @@ const Entrevistas = () => {
         navigate(`/organizations/${orgcod}/projects`);
     };
  
+    //Abrir popup de eliminar entrevista
     const abrirPopupEnt = (id, code) => {
         setIdAEliminarEnt(id);
         setCodigoAEliminarEnt(code);
         setMostrarPopupEnt(true);
     };
       
+    //Cerrar popup de eliminar entrevista
     const cerrarPopupEnt = () => {
         setMostrarPopupEnt(false);
     };
       
+    //Confirma eliminar entrevista, envia id de entrevista
     const confirmarEliminacionEnt = () => {
         if (idAEliminarEnt) {
             deleteEntrevistas(idAEliminarEnt);

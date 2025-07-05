@@ -85,7 +85,7 @@ const ActaAceptacion = () => {
 
     const codigo = queryParams.get('code');
 
-
+    //Función para obtener un acta existente
     useEffect(() => {
 
         const fetchExistingActa = async () => {
@@ -173,7 +173,7 @@ const ActaAceptacion = () => {
         }
     };
 
-
+    //Función para guardar el acta de aceptación subida
     const handleSaveActa = async () => {
 
         if (!selectedFile) {
@@ -232,6 +232,7 @@ const ActaAceptacion = () => {
 
     };
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

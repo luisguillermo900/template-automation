@@ -36,6 +36,7 @@ const NuevoRNF = () => {
 
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
 
+    //Función para obtener el siguiente código de rnf
     useEffect(() => {
     
         const fetchNextCodigoRnf = async () => {
@@ -55,6 +56,7 @@ const NuevoRNF = () => {
         fetchNextCodigoRnf();
     }, [API_BASE_URL,proid]);
 
+    //Función para registrar un nuevo rnf
     const registrarRnf = async (e) => {
         e.preventDefault();
 
@@ -168,6 +170,7 @@ const NuevoRNF = () => {
         }));
     };
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

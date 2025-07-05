@@ -23,8 +23,8 @@ const SubirInterfaz = () => {
     const [errorName, setErrorName] = useState("");
     
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api/v1";
-        
 
+    //Función para subir el archivo de interfaz
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -40,6 +40,7 @@ const SubirInterfaz = () => {
         }
     };
 
+    //Función para guardar los datos de una nueva interfaz
     const handleSaveInterfaz = async () => {
         if (!selectedFile || !name) {
             alert("Complete todos los campos requeridos");
@@ -71,6 +72,7 @@ const SubirInterfaz = () => {
     };
 
 
+    //Función para obtener el siguiente código de interfaz
     useEffect(() => {
         const fetchNextCode = async () => {
             try {
@@ -85,6 +87,7 @@ const SubirInterfaz = () => {
         fetchNextCode();
     }, [API_BASE_URL, projcod]);
 
+    //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

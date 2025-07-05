@@ -59,6 +59,7 @@ const Educcion = () => {
     
     }, [fetchEducciones]);
 
+    //Función para obtener datos de organizacion y proyecto
       useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -315,30 +316,36 @@ const Educcion = () => {
     });
     };
   
+    //Abrir popup para eliminar educcion
     const abrirPopupEdu = (code) => {
         setCodigoAEliminarEdu(code);
         setMostrarPopupEdu(true);
     };
       
+    //Cerrar popup de eliminar educcion
     const cerrarPopupEdu = () => {
         setMostrarPopupEdu(false);
     };
       
+    //Confirma eliminar educcion, envia codigo de educcion
     const confirmarEliminacionEdu = () => {
         if (codigoAEliminarEdu) {
             deleteEduction(codigoAEliminarEdu);
         }
     };
 
+    //Abrir popup eliminar riesgo
     const abrirPopupRiesgo = (code) => {
         setCodigoAEliminarRiesgo(code);
         setMostrarPopupRiesgo(true);
     };
       
+    //Cerrar popup elikinar riesgo
     const cerrarPopupRiesgo = () => {
         setMostrarPopupRiesgo(false);
     };
       
+    //Confirma eliminar riesgo, envia codigo de riesgo
     const confirmarEliminacionRiesgo = () => {
         if (codigoAEliminarRiesgo) {
             deleteRiesgos(codigoAEliminarRiesgo);

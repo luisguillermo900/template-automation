@@ -70,6 +70,7 @@ const NuevoActor = () => {
         fetchNextCodigoActor();
     }, [API_BASE_URL, orgcod, projcod]);
 
+    //Obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {

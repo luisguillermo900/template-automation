@@ -42,6 +42,7 @@ const RegistroProyecto = () => {
         fetchNextCodigo();
     }, [API_BASE_URL, orgcod]);
 
+    //Función para obtener la organización
     const fetchOrganizacion = useCallback(async () => {
     try {
         const response = await axios.get(`${API_BASE_URL}/organizations/${orgcod}`);

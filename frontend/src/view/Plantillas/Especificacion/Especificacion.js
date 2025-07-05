@@ -174,6 +174,7 @@ const Especificacion = () => {
          
       }, [fetchSpecification, fetchRiesgos]);
 
+      //Función para obtener datos de organizacion y proyecto
     useEffect(() => {
     const fetchDatos = async () => {
         try {
@@ -269,30 +270,36 @@ const Especificacion = () => {
     });
     };
 
-const abrirPopupEsp = (code) => {
+    //Abrir popup eliminar especificación
+    const abrirPopupEsp = (code) => {
         setCodigoAEliminarEsp(code);
         setMostrarPopupEsp(true);
     };
       
+    //Cerrar popup eliminar especificación
     const cerrarPopupEsp = () => {
         setMostrarPopupEsp(false);
     };
       
+    //Confirma eliminar especificación, envia codigo de especificación
     const confirmarEliminacionEsp = () => {
         if (codigoAEliminarEsp) {
             deleteEspecification(codigoAEliminarEsp);
         }
     };
 
+    //Abrir popup de eliminar riesgo de especificación
     const abrirPopupRiesgo = (code) => {
         setCodigoAEliminarRiesgo(code);
         setMostrarPopupRiesgo(true);
     };
       
+    //Cerrar popup de eliminar riesgo de especificación
     const cerrarPopupRiesgo = () => {
         setMostrarPopupRiesgo(false);
     };
       
+    //Confirma eliminar riesgo de especificación, envia código de riesgo
     const confirmarEliminacionRiesgo = () => {
         if (codigoAEliminarRiesgo) {
             deleteRiesgos(codigoAEliminarRiesgo);
